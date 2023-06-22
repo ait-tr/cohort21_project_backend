@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable().and()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui.html/**").permitAll()
+                .antMatchers("/api/categories/**").permitAll()
                 .and()
                 .formLogin()
                 .successHandler((request, response, authentication) -> {
