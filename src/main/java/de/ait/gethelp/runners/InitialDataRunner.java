@@ -8,11 +8,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
-//@Component
+@Component
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class InitialDataRunner implements CommandLineRunner {
 
@@ -29,18 +31,24 @@ public class InitialDataRunner implements CommandLineRunner {
             User admin = User.builder()
                     .email("admin@ait-tr.de")
                     .role(User.Role.ADMIN)
+                    .createdAt(LocalDateTime.now())
+                    .isBlocked(false)
+                    .isHelper(false)
                     .hashPassword("$2a$10$YijmlwvWMcfIhT2qQOQ7EeRuMiByNjPtKXa78J7Y8z7XZWJJQTDa.") // admin
                     .build();
 
             alisher = User.builder()
                     .email("alisher@ait-tr.de")
                     .role(User.Role.USER)
+                    .createdAt(LocalDateTime.now())
+                    .isBlocked(false)
+                    .isHelper(false)
                     .hashPassword("$2a$10$RVSHTssubxIkoAl3rQ58UedU8sPMM6FZRxg1icrJg07f.MQAMRpDy") // alisher
                     .build();
             usersRepository.save(admin);
             usersRepository.save(alisher);
         }
-
+/*
         if (tasksRepository.count() == 0) {
             tasksRepository.saveAll(Arrays.asList(
                     Task.builder().name("Name 1").description("Description 1").user(alisher).build(),
@@ -49,6 +57,8 @@ public class InitialDataRunner implements CommandLineRunner {
                     Task.builder().name("Name 1").description("Description 1").user(alisher).build()
             ));
         }
+
+ */
 
 
     }
