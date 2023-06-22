@@ -76,5 +76,4 @@ public class SecurityConfig {
             throw new IllegalStateException(e);
         }
     }
-
 }
