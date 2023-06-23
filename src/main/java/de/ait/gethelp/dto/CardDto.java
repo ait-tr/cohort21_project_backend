@@ -26,7 +26,8 @@ public class CardDto {
     @Schema(description = "ID категории карточки помощи", example = "1")
     private Long categoryId;
 
-    // TODO добавить подкатегорию
+    @Schema(description = "ID подкатегории карточки помощи", example = "1")
+    private Long subCategoryId;
 
     @Schema(description = "Стоимость оказания помощи", example = "30")
     private Double price;
@@ -42,7 +43,7 @@ public class CardDto {
                 .id(card.getId())
                 .userId(card.getUser().getId())
                 .categoryId(card.getCategory().getId())
-                // TODO добавить подкатегорию
+                .subCategoryId(card.getSubcategory().getId())
                 .price(card.getPrice())
                 .description(card.getDescription())
                 .isActive(card.getIsActive())

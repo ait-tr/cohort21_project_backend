@@ -6,9 +6,11 @@ import de.ait.gethelp.dto.NewCardDto;
 import de.ait.gethelp.exceptions.NotFoundException;
 import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.Category;
+import de.ait.gethelp.models.SubCategory;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.CardsRepository;
 import de.ait.gethelp.repositories.CategoriesRepository;
+import de.ait.gethelp.repositories.SubCategoriesRepository;
 import de.ait.gethelp.repositories.UsersRepository;
 import de.ait.gethelp.services.CardsService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class CardsServiceImpl implements CardsService {
 
     private final CardsRepository cardsRepository;
     private final CategoriesRepository categoriesRepository;
+    private final SubCategoriesRepository subCategoriesRepository;
     private final UsersRepository usersRepository;
 
     @Override
@@ -46,11 +49,13 @@ public class CardsServiceImpl implements CardsService {
                 .orElseThrow(IllegalArgumentException::new);
         Category category = categoriesRepository.findById(newCard.getCategoryId()).orElseThrow(
                 () -> new NotFoundException("Category <" + newCard.getCategoryId() + "> not found"));
+        SubCategory subCategory = subCategoriesRepository.findById(newCard.getSubCategoryId()).orElseThrow(
+                () -> new NotFoundException("Category <" + newCard.getSubCategoryId() + "> not found"));
         Card card = Card.builder()
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .category(category)
-                // TODO add subCat
+                .subcategory(subCategory)
                 .price(newCard.getPrice())
                 .description(newCard.getDescription())
                 .isActive(true)
@@ -71,11 +76,13 @@ public class CardsServiceImpl implements CardsService {
                 .orElseThrow(IllegalArgumentException::new);
         Category category = categoriesRepository.findById(editedCard.getCategoryId()).orElseThrow(
                 () -> new NotFoundException("Category <" + editedCard.getCategoryId() + "> not found"));
+        SubCategory subCategory = subCategoriesRepository.findById(editedCard.getSubCategoryId()).orElseThrow(
+                () -> new NotFoundException("Category <" + editedCard.getSubCategoryId() + "> not found"));
         Card card = cardsRepository.findById(cardId).orElseThrow(
                 () -> new NotFoundException("Card <" + cardId + "> not found"));
         card.setUser(user);
         card.setCategory(category);
-        // TODO add subCat
+        card.setSubcategory(subCategory);
         card.setPrice(editedCard.getPrice());
         card.setDescription(editedCard.getDescription());
         cardsRepository.save(card);

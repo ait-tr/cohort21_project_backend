@@ -25,7 +25,6 @@ public class SubCategoriesServiceImpl implements SubCategoriesService {
 
     @Override
     public SubCategoriesPage getAll() {
-
         return SubCategoriesPage.builder()
                 .subCategories(from(subCategoriesRepository.findAll()))
                 .build();

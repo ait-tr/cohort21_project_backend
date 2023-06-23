@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 @Schema(description = "Подкатегория")
 public class SubCategoryDto {
 
-    private final CategoriesRepository categoriesRepository;
-
     @Schema(description = "идентификатор подкатегории, не указывается при добавлении", example = "1")
     private Long id;
 

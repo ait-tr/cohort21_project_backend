@@ -40,8 +40,8 @@ public interface CardsApi {
     ResponseEntity<CardsPage> getAll();
 
 
-    @Operation(summary = "Получение карточки помощи", description = "Доступно всем")
     //TODO настроить доступ для карточек
+    @Operation(summary = "Получение карточки помощи", description = "Доступно всем")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Задача",
                     content = {

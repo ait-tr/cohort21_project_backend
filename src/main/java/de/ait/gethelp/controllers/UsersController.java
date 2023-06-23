@@ -3,8 +3,6 @@ package de.ait.gethelp.controllers;
 import de.ait.gethelp.controllers.api.UsersApi;
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.ProfileDto;
-import de.ait.gethelp.dto.TasksPage;
-import de.ait.gethelp.models.User;
 import de.ait.gethelp.security.details.AuthenticatedUser;
 import de.ait.gethelp.services.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +27,7 @@ public class UsersController implements UsersApi {
     @PreAuthorize("hasAuthority('USER')")
     @Override
     public ResponseEntity<CardDto> editCardStatus(AuthenticatedUser currentUser, Long cardId, Boolean cardStatus) {
-        // TODO реализация проверки пользователя, принадлежит ли ему изменяемая карточка (перенести в сервис?)
         Long currentUserId = currentUser.getUser().getId();
         return ResponseEntity.ok(usersService.editCardStatus(currentUserId, cardId, cardStatus));
-    }
-
-    //  -------------- TEMP (будет удалено) -------------- //
-
-    @PreAuthorize("hasAuthority('USER')")
-    @Override
-    public ResponseEntity<TasksPage> getMyTasks(AuthenticatedUser currentUser) {
-        Long currentUserId = currentUser.getUser().getId();
-        return ResponseEntity.ok(usersService.getTasksByUser(currentUserId));
     }
 }

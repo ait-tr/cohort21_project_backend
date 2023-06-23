@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NewCardDto {
     private Long categoryId;
-    // TODO добавить подкатегорию
+    private Long subCategoryId;
     private Double price;
     private String description;
 }

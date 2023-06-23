@@ -29,8 +29,6 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    //TODO Image/String avatar;
-
     @Column(name = "username")
     private String username;
 
@@ -42,6 +40,10 @@ public class User {
 
     @Column(name = "phone")
     private String phone;
+
+    // TODO Image/String avatar;
+
+    // TODO Address = Country + City;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")

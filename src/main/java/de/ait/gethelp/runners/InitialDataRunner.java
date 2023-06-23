@@ -2,9 +2,11 @@ package de.ait.gethelp.runners;
 
 import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.Category;
+import de.ait.gethelp.models.SubCategory;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.CardsRepository;
 import de.ait.gethelp.repositories.CategoriesRepository;
+import de.ait.gethelp.repositories.SubCategoriesRepository;
 import de.ait.gethelp.repositories.UsersRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class InitialDataRunner implements CommandLineRunner {
 
     UsersRepository usersRepository;
     CategoriesRepository categoriesRepository;
-    // TODO добавить SubCatRepo
+    SubCategoriesRepository subCategoriesRepository;
     CardsRepository cardsRepository;
 
     @Override
@@ -53,7 +55,12 @@ public class InitialDataRunner implements CommandLineRunner {
         Category category1 = null;
         Category category2 = null;
         Category category3 = null;
-        // TODO SubCats
+        SubCategory subCategory1 = null;
+        SubCategory subCategory2 = null;
+        SubCategory subCategory3 = null;
+        SubCategory subCategory4 = null;
+        SubCategory subCategory5 = null;
+        SubCategory subCategory6 = null;
         Card card1 = null;
         Card card2 = null;
         Card card3 = null;
@@ -147,14 +154,63 @@ public class InitialDataRunner implements CommandLineRunner {
             categoriesRepository.save(category3);
         }
 
-        // TODO добавить подкатегории
+        if (!subCategoriesRepository.existsById(1L)) {
+            subCategory1 = SubCategory.builder()
+                    .createdAt(LocalDateTime.now())
+                    .title("Languages")
+                    .description("Тестовое описание подкатегории Languages")
+                    .category(category1)
+                    .build();
+
+            subCategory2 = SubCategory.builder()
+                    .createdAt(LocalDateTime.now())
+                    .title("Science")
+                    .description("Тестовое описание подкатегории Science")
+                    .category(category1)
+                    .build();
+
+            subCategory3 = SubCategory.builder()
+                    .createdAt(LocalDateTime.now())
+                    .title("Handycrafts")
+                    .description("Тестовое описание подкатегории Handycrafts")
+                    .category(category1)
+                    .build();
+
+            subCategory4 = SubCategory.builder()
+                    .createdAt(LocalDateTime.now())
+                    .title("Babysitter")
+                    .description("Тестовое описание подкатегории Babysitter")
+                    .category(category2)
+                    .build();
+
+            subCategory5 = SubCategory.builder()
+                    .createdAt(LocalDateTime.now())
+                    .title("Nurse")
+                    .description("Тестовое описание подкатегории Nurse")
+                    .category(category2)
+                    .build();
+
+            subCategory6 = SubCategory.builder()
+                    .createdAt(LocalDateTime.now())
+                    .title("Cleaning")
+                    .description("Тестовое описание подкатегории Cleaning")
+                    .category(category3)
+                    .build();
+
+            subCategoriesRepository.save(subCategory1);
+            subCategoriesRepository.save(subCategory2);
+            subCategoriesRepository.save(subCategory3);
+            subCategoriesRepository.save(subCategory4);
+            subCategoriesRepository.save(subCategory5);
+            subCategoriesRepository.save(subCategory6);
+        }
 
         if (!cardsRepository.existsById(1L)) {
             card1 = Card.builder()
                     .createdAt(LocalDateTime.now())
                     .user(anna)
                     .category(category1)
-                    // TODO SubCat
+                    .subcategory(subCategory3)
                     .price(27.0)
                     .description("Тестовое описание 1й карточки помощи от anna")
                     .isActive(true)
@@ -164,7 +220,7 @@ public class InitialDataRunner implements CommandLineRunner {
                     .createdAt(LocalDateTime.now())
                     .user(bob)
                     .category(category2)
-                    // TODO SubCat
+                    .subcategory(subCategory5)
                     .price(16.0)
                     .description("Тестовое описание 2й карточки помощи от bob")
                     .isActive(true)
@@ -174,7 +230,7 @@ public class InitialDataRunner implements CommandLineRunner {
                     .createdAt(LocalDateTime.now())
                     .user(paul)
                     .category(category3)
-                    // TODO SubCat
+                    .subcategory(subCategory6)
                     .price(21.0)
                     .description("Тестовое описание 3й карточки помощи от paul")
                     .isActive(false)
@@ -184,7 +240,7 @@ public class InitialDataRunner implements CommandLineRunner {
                     .createdAt(LocalDateTime.now())
                     .user(anna)
                     .category(category1)
-                    // TODO SubCat
+                    .subcategory(subCategory1)
                     .price(24.0)
                     .description("Тестовое описание 4й карточки помощи от anna")
                     .isActive(false)
@@ -194,7 +250,7 @@ public class InitialDataRunner implements CommandLineRunner {
                     .createdAt(LocalDateTime.now())
                     .user(anna)
                     .category(category1)
-                    // TODO SubCat
+                    .subcategory(subCategory1)
                     .price(32.0)
                     .description("Тестовое описание 5й карточки помощи от anna")
                     .isActive(true)

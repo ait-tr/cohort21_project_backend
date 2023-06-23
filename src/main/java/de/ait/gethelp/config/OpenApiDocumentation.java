@@ -71,7 +71,7 @@ public class OpenApiDocumentation {
     static Schema<?> emailAndPassword() {
         return new Schema<>()
                 .type("object")
-                .description("Email и пароль пользователя")
+                .description("имя и пароль пользователя")
                 .addProperty("username", new Schema<>().type("string"))
                 .addProperty("password", new Schema<>().type("string"));
     }

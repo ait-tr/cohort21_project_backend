@@ -37,8 +37,9 @@ public interface SubCategoriesApi {
     @GetMapping
     ResponseEntity<SubCategoriesPage> getAll();
 
+
+    //TODO настроить доступ для подкатегорий
     @Operation(summary = "Получение подкатегории", description = "Доступно всем")
-    //TODO настроить доступ для категорий
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Задача",
                     content = {
@@ -69,6 +70,7 @@ public interface SubCategoriesApi {
     })
     @PostMapping
     ResponseEntity<SubCategoryDto> addSubCategory(@RequestBody NewSubCategoryDto newSubCategoryDto);
+
 
     @Operation(summary = "Редактирование подкатегории", description = "Доступно только администратору")
     @ApiResponses(value = {

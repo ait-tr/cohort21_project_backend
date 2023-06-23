@@ -3,21 +3,15 @@ package de.ait.gethelp.services.impl;
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.CardsPage;
 import de.ait.gethelp.dto.ProfileDto;
-import de.ait.gethelp.dto.TasksPage;
 import de.ait.gethelp.exceptions.ForbiddenException;
 import de.ait.gethelp.exceptions.NotFoundException;
 import de.ait.gethelp.models.Card;
-import de.ait.gethelp.models.Task;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.CardsRepository;
-import de.ait.gethelp.repositories.TasksRepository;
 import de.ait.gethelp.repositories.UsersRepository;
 import de.ait.gethelp.services.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.List;
 
 import static de.ait.gethelp.dto.CardDto.from;
 
@@ -26,7 +20,6 @@ import static de.ait.gethelp.dto.CardDto.from;
 public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
-    private final TasksRepository tasksRepository;
     private final CardsRepository cardsRepository;
 
     @Override
@@ -48,8 +41,6 @@ public class UsersServiceImpl implements UsersService {
                 .build();
     }
 
-
-
     @Override
     public CardDto editCardStatus(Long currentUserId, Long cardId, Boolean cardStatus) {
         User user = usersRepository.findById(currentUserId)
@@ -57,24 +48,10 @@ public class UsersServiceImpl implements UsersService {
         Card card = cardsRepository.findById(cardId).orElseThrow(
                 () -> new NotFoundException("Category <" + cardId + "> not found"));
         if (!user.getCards().contains(card)) {
-            // TODO проверить правильность выкинутой ошибки (Exception + message)
             throw new ForbiddenException("карточка не принадлежит пользователю");
         }
         card.setIsActive(cardStatus);
         cardsRepository.save(card);
         return CardDto.from(card);
     }
-
-    // ---------------- TEMP (будет удалено) ---------------- //
-
-    @Override
-    public TasksPage getTasksByUser(Long currentUserId) {
-        List<Task> tasks = tasksRepository.findAllByUser_Id(currentUserId);
-
-        return TasksPage.builder()
-                //.tasks(from(tasks))
-                .build();
-
-    }
-
 }

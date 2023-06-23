@@ -24,7 +24,7 @@ public class UserDto {
     @Schema(description = "имя пользователя", example = "username")
     private String username;
 
-    // @Schema(description = "аватар пользователя")
+    // TODO @Schema(description = "аватар пользователя")
     // private Image/String avatar;
 
     @Schema(description = "почта пользователя", example = "user@gmail.com")

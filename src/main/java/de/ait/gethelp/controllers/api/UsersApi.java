@@ -2,7 +2,6 @@ package de.ait.gethelp.controllers.api;
 
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.ProfileDto;
-import de.ait.gethelp.dto.TasksPage;
 import de.ait.gethelp.security.details.AuthenticatedUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -61,27 +60,4 @@ public interface UsersApi {
             @PathVariable("card-id") Long cardId,
             @RequestBody Boolean cardStatus
             );
-
-
-
-//  -------------- TEMP (будет удалено) -------------- //
-
-    @Operation(summary = "Получение списка своих задач", description = "Доступно только пользователю")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список задач",
-                    content = {
-                            @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TasksPage.class))
-                    }
-            ),
-            @ApiResponse(responseCode = "403", description = "Пользователь не аутентифицирован",
-                    content = {
-                            @Content(mediaType = "application/json",
-                                    schema = @Schema(ref = "StandardResponseDto"))
-                    }
-            )
-    })
-    //@GetMapping("/my/tasks")
-    ResponseEntity<TasksPage> getMyTasks(@Parameter(hidden = true)
-                                          @AuthenticationPrincipal AuthenticatedUser currentUser);
 }
