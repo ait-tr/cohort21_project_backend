@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class NewSubCategoryDto {
     private String title;
     private String description;
+    private Long categoryId;
 }
