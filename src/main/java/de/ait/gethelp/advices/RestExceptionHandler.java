@@ -1,6 +1,7 @@
 package de.ait.gethelp.advices;
 
 import de.ait.gethelp.dto.StandardResponseDto;
+import de.ait.gethelp.exceptions.ForbiddenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,16 @@ public class RestExceptionHandler {
                 .body(StandardResponseDto.builder()
                         .message(ex.getMessage())
                         .status(HttpStatus.NOT_FOUND.value())
+                        .build());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<StandardResponseDto> handleForbidden(ForbiddenException ex) {
+        log.error(ex.toString());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(StandardResponseDto.builder()
+                        .message(ex.getMessage())
+                        .status(HttpStatus.FORBIDDEN.value())
                         .build());
     }
 }

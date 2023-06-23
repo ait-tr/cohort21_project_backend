@@ -50,6 +50,7 @@ public class CategoriesServiceImpl implements CategoriesService {
                 () -> new NotFoundException("Category <" + categoryId + "> not found"));
         category.setTitle(editedCategory.getTitle());
         category.setDescription(editedCategory.getDescription());
+        categoriesRepository.save(category);
         return from(category);
     }
 }

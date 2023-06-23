@@ -1,5 +1,6 @@
 package de.ait.gethelp.controllers.api;
 
+import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.dto.TasksPage;
 import de.ait.gethelp.security.details.AuthenticatedUser;
@@ -14,8 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Tags(value = {
         @Tag(name = "Users")
@@ -42,6 +42,29 @@ public interface UsersApi {
     @GetMapping("/my/profile")
     ResponseEntity<ProfileDto> getProfile(@Parameter(hidden = true)
                                           @AuthenticationPrincipal AuthenticatedUser currentUser);
+
+    @Operation(summary = "Изменение статуса карточки помощи", description = "Доступно только USER со статусом isHelper=true")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Статус карточки помощи отредактирован"
+            ),
+            @ApiResponse(responseCode = "404", description = "Не найдено",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = CardDto.class))
+                    }
+            )
+    })
+    @PatchMapping("/my/cards/{card-id}")
+    ResponseEntity<CardDto> editCardStatus(
+            @Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser currentUser,
+            @Parameter(description = "идентификатор карточки помощи")
+            @PathVariable("card-id") Long cardId,
+            @RequestBody Boolean cardStatus
+            );
+
+
+
+//  -------------- TEMP (будет удалено) -------------- //
 
     @Operation(summary = "Получение списка своих задач", description = "Доступно только пользователю")
     @ApiResponses(value = {

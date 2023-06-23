@@ -29,13 +29,19 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    //TODO Image avatar;
+    //TODO Image/String avatar;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "hash_password")
+    private String hashPassword;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "hash_password")
-    private String hashPassword;
+    @Column(name = "phone")
+    private String phone;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")

@@ -72,7 +72,9 @@ public interface CategoriesApi {
 
     @Operation(summary = "Редактирование категории", description = "Доступно только администратору")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Категория отредактирована",
+            @ApiResponse(responseCode = "200", description = "Категория отредактирована"
+            ),
+            @ApiResponse(responseCode = "404", description = "Не найдено",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = CategoryDto.class))
