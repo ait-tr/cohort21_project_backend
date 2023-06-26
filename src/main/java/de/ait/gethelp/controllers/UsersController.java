@@ -2,6 +2,7 @@ package de.ait.gethelp.controllers;
 
 import de.ait.gethelp.controllers.api.UsersApi;
 import de.ait.gethelp.dto.CardDto;
+import de.ait.gethelp.dto.NewProfileDto;
 import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.security.details.AuthenticatedUser;
 import de.ait.gethelp.services.UsersService;
@@ -21,6 +22,14 @@ public class UsersController implements UsersApi {
     public ResponseEntity<ProfileDto> getProfile(AuthenticatedUser currentUser) {
         Long currentUserId = currentUser.getUser().getId();
         ProfileDto profile = usersService.getProfile(currentUserId);
+        return ResponseEntity.ok(profile);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @Override
+    public ResponseEntity<ProfileDto> editProfile(AuthenticatedUser currentUser, NewProfileDto editedProfile) {
+        Long currentUserId = currentUser.getUser().getId();
+        ProfileDto profile = usersService.editProfile(currentUserId, editedProfile);
         return ResponseEntity.ok(profile);
     }
 

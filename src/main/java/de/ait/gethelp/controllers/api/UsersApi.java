@@ -1,6 +1,8 @@
 package de.ait.gethelp.controllers.api;
 
 import de.ait.gethelp.dto.CardDto;
+import de.ait.gethelp.dto.NewCardDto;
+import de.ait.gethelp.dto.NewProfileDto;
 import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.security.details.AuthenticatedUser;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +43,25 @@ public interface UsersApi {
     @GetMapping("/my/profile")
     ResponseEntity<ProfileDto> getProfile(@Parameter(hidden = true)
                                           @AuthenticationPrincipal AuthenticatedUser currentUser);
+
+
+    @Operation(summary = "Редактирование данных пользователя", description = "Доступно только USER")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Карточка помощи отредактирована"
+            ),
+            @ApiResponse(responseCode = "404", description = "Не найдено",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = CardDto.class))
+                    }
+            )
+    })
+    @PutMapping("/my/profile")
+    ResponseEntity<ProfileDto> editProfile(
+            @Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser currentUser,
+            @RequestBody NewProfileDto editedProfile);
+
+
 
     @Operation(summary = "Изменение статуса карточки помощи", description = "Доступно только USER со статусом isHelper=true")
     @ApiResponses(value = {

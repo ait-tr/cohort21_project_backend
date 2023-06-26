@@ -2,6 +2,7 @@ package de.ait.gethelp.services.impl;
 
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.CardsPage;
+import de.ait.gethelp.dto.NewProfileDto;
 import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.exceptions.ForbiddenException;
 import de.ait.gethelp.exceptions.NotFoundException;
@@ -53,5 +54,27 @@ public class UsersServiceImpl implements UsersService {
         card.setIsActive(cardStatus);
         cardsRepository.save(card);
         return CardDto.from(card);
+    }
+
+    @Override
+    public ProfileDto editProfile(Long currentUserId, NewProfileDto editedProfile) {
+        User user = usersRepository.findById(currentUserId)
+                .orElseThrow(IllegalArgumentException::new);
+        CardsPage userCards = CardsPage.builder()
+                .cards(from(cardsRepository.findAllByUser_Id(currentUserId)))
+                .build();
+        user.setEmail(editedProfile.getEmail());
+        user.setPhone(editedProfile.getPhone());
+        usersRepository.save(user);
+
+        return ProfileDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .role(user.getRole().name())
+                .isHelper(user.getIsHelper())
+                .cards(userCards)
+                .build();
     }
 }
