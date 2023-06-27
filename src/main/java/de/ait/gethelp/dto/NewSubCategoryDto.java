@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewUserDto {
-    private String username;
-    private String password;
+public class NewSubCategoryDto {
+    private String title;
+    private String description;
+    private Long categoryId;
 }

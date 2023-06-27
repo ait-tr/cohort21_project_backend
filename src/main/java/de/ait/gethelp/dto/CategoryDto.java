@@ -23,7 +23,7 @@ public class CategoryDto {
     @Schema(description = "Название категории", example = "Learning")
     private String title;
 
-    @Schema(description = "Описание категории", example = "Description of Category ")
+    @Schema(description = "Описание категории", example = "Description of Category")
     private String description;
 
     public static CategoryDto from(Category category) {

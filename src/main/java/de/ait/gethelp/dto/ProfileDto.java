@@ -15,8 +15,10 @@ import java.util.List;
 public class ProfileDto {
 
     private Long id;
+    private String username;
     private String email;
+    private String phone;
     private String role;
     private Boolean isHelper;
-    private List<Card> cards;
+    private CardsPage cards;
 }

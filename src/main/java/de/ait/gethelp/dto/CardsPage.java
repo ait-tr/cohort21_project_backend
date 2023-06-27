@@ -12,9 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(description = "Страница с задачами")
-public class TasksPage {
+@Schema(description = "Страница с карточками помощи")
+public class CardsPage {
 
-    @Schema(description = "Список задач")
-    private List<TaskDto> tasks;
+    @Schema(description = "Список карточек помощи")
+    private List<CardDto> cards;
 }

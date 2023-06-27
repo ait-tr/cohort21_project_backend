@@ -21,22 +21,28 @@ public class UserDto {
     @Schema(description = "идентификатор пользователя", example = "1")
     private Long id;
 
-    //TODO @Schema(description = "аватар пользователя")
-    //private Image avatar;
-
     @Schema(description = "имя пользователя", example = "username")
+    private String username;
+
+    // TODO @Schema(description = "аватар пользователя")
+    // private Image/String avatar;
+
+    @Schema(description = "почта пользователя", example = "user@gmail.com")
     private String email;
+
+    @Schema(description = "телефон пользователя", example = "+1234567890")
+    private String phone;
 
     @Schema(description = "является ли пользователь хэлпером", example = "true")
     private Boolean isHelper;
 
-    @Schema(description = "список карточек пользователя", example = "true")
-    private List<Card> cards;
-
     public static UserDto from(User user) {
         return UserDto.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .email(user.getEmail())
+                .phone(user.getPhone())
+                .isHelper(user.getIsHelper())
                 .build();
     }
 
