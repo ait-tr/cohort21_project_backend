@@ -77,4 +77,11 @@ public class UsersServiceImpl implements UsersService {
                 .cards(userCards)
                 .build();
     }
+
+    @Override
+    public CardsPage getUserCards(Long currentUserId) {
+        return CardsPage.builder()
+                .cards(from(cardsRepository.findAllByUser_Id(currentUserId)))
+                .build();
+    }
 }

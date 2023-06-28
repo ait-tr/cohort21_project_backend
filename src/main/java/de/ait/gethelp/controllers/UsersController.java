@@ -2,6 +2,7 @@ package de.ait.gethelp.controllers;
 
 import de.ait.gethelp.controllers.api.UsersApi;
 import de.ait.gethelp.dto.CardDto;
+import de.ait.gethelp.dto.CardsPage;
 import de.ait.gethelp.dto.NewProfileDto;
 import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.security.details.AuthenticatedUser;
@@ -38,5 +39,11 @@ public class UsersController implements UsersApi {
     public ResponseEntity<CardDto> editCardStatus(AuthenticatedUser currentUser, Long cardId, Boolean cardStatus) {
         Long currentUserId = currentUser.getUser().getId();
         return ResponseEntity.ok(usersService.editCardStatus(currentUserId, cardId, cardStatus));
+    }
+
+    @Override
+    public ResponseEntity<CardsPage> getUserCards(AuthenticatedUser currentUser) {
+        Long currentUserId = currentUser.getUser().getId();
+        return ResponseEntity.ok(usersService.getUserCards(currentUserId));
     }
 }

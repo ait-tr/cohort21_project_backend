@@ -1,9 +1,6 @@
 package de.ait.gethelp.controllers.api;
 
-import de.ait.gethelp.dto.CardDto;
-import de.ait.gethelp.dto.NewCardDto;
-import de.ait.gethelp.dto.NewProfileDto;
-import de.ait.gethelp.dto.ProfileDto;
+import de.ait.gethelp.dto.*;
 import de.ait.gethelp.security.details.AuthenticatedUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,7 +36,6 @@ public interface UsersApi {
                     }
             )
     })
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/my/profile")
     ResponseEntity<ProfileDto> getProfile(@Parameter(hidden = true)
                                           @AuthenticationPrincipal AuthenticatedUser currentUser);
@@ -81,6 +77,26 @@ public interface UsersApi {
             @PathVariable("card-id") Long cardId,
             @RequestBody Boolean cardStatus
             );
+
+
+    @Operation(summary = "Получение карточек помощи пользователя", description = "Доступно только USER со статусом isHelper=true")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Информацию о профиле",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = CardsPage.class))
+                    }
+            ),
+            @ApiResponse(responseCode = "403", description = "Пользователь не аутентифицирован",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(ref = "StandardResponseDto"))
+                    }
+            )
+    })
+    @GetMapping("/my/cards")
+    ResponseEntity<CardsPage> getUserCards(@Parameter(hidden = true)
+                                          @AuthenticationPrincipal AuthenticatedUser currentUser);
 }
 
 
