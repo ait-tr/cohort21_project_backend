@@ -25,7 +25,7 @@ public class TestConfig {
     public static final String MOCK_USER = "jack";
 
     @Bean
-//    @Primary
+    @Primary
     public UserDetailsService userDetailsService() {
 
 
