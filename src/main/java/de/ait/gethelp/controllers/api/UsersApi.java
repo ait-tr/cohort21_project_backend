@@ -1,6 +1,9 @@
 package de.ait.gethelp.controllers.api;
 
-import de.ait.gethelp.dto.*;
+import de.ait.gethelp.dto.CardDto;
+import de.ait.gethelp.dto.CardsPage;
+import de.ait.gethelp.dto.NewProfileDto;
+import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.security.details.AuthenticatedUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

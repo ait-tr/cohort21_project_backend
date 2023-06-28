@@ -41,6 +41,7 @@ public class UsersController implements UsersApi {
         return ResponseEntity.ok(usersService.editCardStatus(currentUserId, cardId, cardStatus));
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @Override
     public ResponseEntity<CardsPage> getUserCards(AuthenticatedUser currentUser) {
         Long currentUserId = currentUser.getUser().getId();

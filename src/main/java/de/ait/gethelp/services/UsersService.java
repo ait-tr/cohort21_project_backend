@@ -5,8 +5,6 @@ import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.CardsPage;
 import de.ait.gethelp.dto.NewProfileDto;
 import de.ait.gethelp.dto.ProfileDto;
-import de.ait.gethelp.security.details.AuthenticatedUser;
-import org.springframework.http.ResponseEntity;
 
 public interface UsersService {
 
