@@ -12,11 +12,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+
 @RequiredArgsConstructor
-//@Component
+@Component
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class InitialDataRunner implements CommandLineRunner {
 
@@ -66,6 +68,7 @@ public class InitialDataRunner implements CommandLineRunner {
         Card card3 = null;
         Card card4 = null;
         Card card5 = null;
+
 
         if (!usersRepository.existsById(1L)) {
             admin = User.builder()
