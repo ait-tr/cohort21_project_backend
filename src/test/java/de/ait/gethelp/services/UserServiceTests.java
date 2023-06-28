@@ -1,8 +1,7 @@
-package de.ait.gethelp.Service;
+package de.ait.gethelp.services;
 
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.ProfileDto;
-import de.ait.gethelp.dto.UserDto;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.UsersRepository;
 import de.ait.gethelp.services.impl.UsersServiceImpl;
@@ -14,9 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

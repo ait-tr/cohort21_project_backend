@@ -50,7 +50,7 @@ public class CardsServiceImpl implements CardsService {
         Category category = categoriesRepository.findById(newCard.getCategoryId()).orElseThrow(
                 () -> new NotFoundException("Category <" + newCard.getCategoryId() + "> not found"));
         SubCategory subCategory = subCategoriesRepository.findById(newCard.getSubCategoryId()).orElseThrow(
-                () -> new NotFoundException("Category <" + newCard.getSubCategoryId() + "> not found"));
+                () -> new NotFoundException("SubCategory <" + newCard.getSubCategoryId() + "> not found"));
         Card card = Card.builder()
                 .createdAt(LocalDateTime.now())
                 .user(user)
@@ -77,7 +77,7 @@ public class CardsServiceImpl implements CardsService {
         Category category = categoriesRepository.findById(editedCard.getCategoryId()).orElseThrow(
                 () -> new NotFoundException("Category <" + editedCard.getCategoryId() + "> not found"));
         SubCategory subCategory = subCategoriesRepository.findById(editedCard.getSubCategoryId()).orElseThrow(
-                () -> new NotFoundException("Category <" + editedCard.getSubCategoryId() + "> not found"));
+                () -> new NotFoundException("SubCategory <" + editedCard.getSubCategoryId() + "> not found"));
         Card card = cardsRepository.findById(cardId).orElseThrow(
                 () -> new NotFoundException("Card <" + cardId + "> not found"));
         card.setUser(user);

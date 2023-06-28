@@ -1,8 +1,7 @@
-package de.ait.gethelp.Config;
+package de.ait.gethelp.security.config;
 
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.security.details.AuthenticatedUser;
-import net.bytebuddy.build.ToStringPlugin;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
@@ -26,7 +25,7 @@ public class TestConfig {
     public static final String MOCK_USER = "jack";
 
     @Bean
-    @Primary
+//    @Primary
     public UserDetailsService userDetailsService() {
 
 

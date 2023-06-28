@@ -12,13 +12,15 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@ActiveProfiles("test")
+//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class CategoriesRepositoryTest {
     @Autowired
     private CategoriesRepository categoriesRepository;

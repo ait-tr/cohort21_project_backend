@@ -56,6 +56,5 @@ public class User {
     private Boolean isBlocked;
 
     @OneToMany(mappedBy = "user")
-    @Column(name = "role")
     private List<Card> cards;
 }

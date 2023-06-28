@@ -1,7 +1,7 @@
 package de.ait.gethelp.inna;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.ait.gethelp.Config.TestConfig;
+import de.ait.gethelp.security.config.TestConfig;
 import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.CardsRepository;
