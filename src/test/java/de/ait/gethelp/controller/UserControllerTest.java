@@ -1,6 +1,7 @@
-package de.ait.gethelp.controllers;
+package de.ait.gethelp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.ait.gethelp.dto.UserDto;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.CardsRepository;
 import de.ait.gethelp.repositories.CategoriesRepository;
@@ -12,9 +13,13 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.web.header.Header;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.logging.Handler;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(UserControllerUSERTest.class)
+@WebMvcTest(UserControllerTest.class)
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
