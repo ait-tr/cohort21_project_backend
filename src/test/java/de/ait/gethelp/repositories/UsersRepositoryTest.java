@@ -4,8 +4,10 @@ import de.ait.gethelp.models.User;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -56,53 +58,67 @@ public class UsersRepositoryTest {
     }
 
     @Test
+    @DisplayName("userRepository saveAll Return Saved User")
     public void userRepository_saveAll_ReturnSavedUser(){
 
 
         User savedUser = usersRepository.save(user1);
 
+        assertAll(() -> {
+                    Assertions.assertThat(savedUser).isNotNull();
+                },
+                () -> {
+                    Assertions.assertThat(savedUser.getId()).isGreaterThan(0);
+                }
+        );
 
-        Assertions.assertThat(savedUser).isNotNull();
-        Assertions.assertThat(savedUser.getId()).isGreaterThan(0);
+
     }
     @Test
+    @DisplayName("serRepository get All return more then one users")
     public void userRepository_GetAll_ReturnMoreThenOneUsers(){
 
 
-        User savedUser1 = usersRepository.save(user1);
-        User savedUser2 = usersRepository.save(user2);
+        usersRepository.save(user1);
+        usersRepository.save(user2);
 
         List<User> userList = usersRepository.findAll();
 
-        Assertions.assertThat(userList).isNotNull();
-        Assertions.assertThat(userList.size()).isEqualTo(2);
-
+        assertAll(()->{
+            Assertions.assertThat(userList).isNotNull();},
+        ()-> {
+            Assertions.assertThat(userList.size()).isEqualTo(2);
+        }
+        );
 
     }
     @Test
+    @DisplayName("userRepository FindById Return user not null")
     public void userRepository_FindById_ReturnUserNotNull(){
-        User savedUser1 = usersRepository.save(user1);
+        usersRepository.save(user1);
 
 
-        User user = usersRepository.findById(user1.getId()).get();
+        Optional <User> user = usersRepository.findById(user1.getId());
 
-        Assertions.assertThat(user).isNotNull();
+        Assertions.assertThat(user.isEmpty()).isFalse();
 
     }
     @Test
-    public void userRepository_FindByType_ReturnUserNotNull(){
-        User savedUser1 = usersRepository.save(user1);
+    @DisplayName("userRepository find By Name return user not null")
+    public void userRepository_FindByName_ReturnUserNotNull(){
+        usersRepository.save(user1);
 
-        User user = usersRepository.findByUsername(user1.getUsername()).get();
+        Optional<User> user = usersRepository.findByUsername(user1.getUsername());
 
-        Assertions.assertThat(user).isNotNull();
+        Assertions.assertThat(user.isEmpty()).isFalse();
 
     }
 
     @Test
+    @DisplayName("userRepository update user return user not null")
     public void userRepository_updateUser_ReturnUserNotNull(){
 
-        User savedUser1 = usersRepository.save(user1);
+        usersRepository.save(user1);
 
         User userSave = usersRepository.findById(user1.getId()).get();
         userSave.setUsername("yy");
@@ -110,19 +126,24 @@ public class UsersRepositoryTest {
 
         User updatedUser = usersRepository.save(userSave);
 
-        Assertions.assertThat(updatedUser).isNotNull();
-        Assertions.assertThat(updatedUser.getUsername()).isNotNull();
+        assertAll(()->{
+                    Assertions.assertThat(updatedUser).isNotNull();},
+                ()-> {
+                    Assertions.assertThat(updatedUser.getUsername()).isNotNull();
+                }
+        );
 
 
     }
     @Test
+    @DisplayName("userRepository User delete return user is empty")
     public void userRepository_UserDelete_ReturnUserIsEmpty(){
-        User savedUser1 = usersRepository.save(user1);
+        usersRepository.save(user1);
 
         usersRepository.deleteById(user1.getId());
         Optional <User> userReturn = usersRepository.findById(user1.getId());
 
-        Assertions.assertThat(userReturn).isEmpty();
+                Assertions.assertThat(userReturn).isEmpty();
 
     }
 }

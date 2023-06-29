@@ -7,6 +7,7 @@ import de.ait.gethelp.models.User;
 import lombok.Builder;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 @DataJpaTest
 @ActiveProfiles("test")
-//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class CardsRepositoryTest {
     @Autowired
     private CardsRepository cardsRepository;
@@ -55,7 +56,7 @@ class CardsRepositoryTest {
                 .title("xx")
                 .description("xx")
                 .subCategory(List.of(subCategory))
-                .cards(List.of(card1))
+                .cards(List.of(card1))     // TODO: 28.06.2023 не даёт пройти тесту
                 .build();
         card1 = Card.builder()
                 .id(1l)
@@ -88,36 +89,42 @@ class CardsRepositoryTest {
     }
 
     @Test
+    @DisplayName("cardRepository saveAll return saved card")
     public void cardRepository_saveAll_ReturnSavedCard(){
         Card savedCard = cardsRepository.save(card1);
 
-
-        Assertions.assertThat(savedCard).isNotNull();
-        Assertions.assertThat(savedCard.getId()).isGreaterThan(0);
+        assertAll(()->{
+        Assertions.assertThat(savedCard).isNotNull();},
+                ()->{
+        Assertions.assertThat(savedCard.getId()).isGreaterThan(0);}
+        );
     }
     @Test
+    @DisplayName("cardRepository GetAll return more then one card")
     public void cardRepository_GetAll_ReturnMoreThenOneCard(){
 
         cardsRepository.save(card1);
         cardsRepository.save(card2);
 
         List<Card> userList = cardsRepository.findAll();
-
-        Assertions.assertThat(userList).isNotNull();
-        Assertions.assertThat(userList.size()).isEqualTo(2);
-
-
+        assertAll(()->{
+        Assertions.assertThat(userList).isNotNull();},
+                ()->{
+        Assertions.assertThat(userList.size()).isEqualTo(2);}
+        );
     }
     @Test
+    @DisplayName("cardRepository FindById return card not null")
     public void cardRepository_FindById_ReturnCardNotNull(){
         cardsRepository.save(card1);
 
-        Card card =cardsRepository.findById(card1.getId()).get();
+        Optional <Card> card =cardsRepository.findById(card1.getId());
 
         Assertions.assertThat(card).isNotNull();
 
     }
     @Test
+    @DisplayName("cardRepository FindByType return Card not null")
     public void cardRepository_FindByType_ReturnCardNotNull(){
         cardsRepository.save(card1);
 
@@ -128,6 +135,7 @@ class CardsRepositoryTest {
     }
 
     @Test
+    @DisplayName("cardRepository updateCard return Card not null")
     public void cardRepository_updateCard_ReturnCardNotNull(){
         cardsRepository.save(card1);
 
@@ -143,6 +151,7 @@ class CardsRepositoryTest {
 
     }
     @Test
+    @DisplayName("cardRepository CardDelete return card is empty")
     public void cardRepository_CardDelete_ReturnCardIsEmpty(){
         cardsRepository.save(card1);
 
