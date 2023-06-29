@@ -30,7 +30,9 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTests {
+public class
+
+UserServiceTests {
     @Mock
     private UsersRepository usersRepository;
     @Mock
@@ -70,7 +72,7 @@ public class UserServiceTests {
                 .role(User.Role.USER)
                 .isHelper(true)
                 .isBlocked(false)
-                .cards(List.of(card1))    // TODO: 29.06.2023 тоже не влаживаетсякарточка 
+                .cards(List.of(card1))    // TODO: 29.06.2023 тоже не влаживаетсякарточка
                 .build();
         cardsPage=CardsPage.builder()
                 .cards(new ArrayList<CardDto>())
