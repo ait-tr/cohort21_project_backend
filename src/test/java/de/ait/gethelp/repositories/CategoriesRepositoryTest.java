@@ -5,7 +5,9 @@ import de.ait.gethelp.models.Category;
 import de.ait.gethelp.models.SubCategory;
 import de.ait.gethelp.models.User;
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -83,57 +85,68 @@ class CategoriesRepositoryTest {
     }
 
     @Test
+    @DisplayName("CategoriesRepository saveAll return saved Categories")
     public void CategoriesRepository_saveAll_ReturnSavedCategories(){
 
         Category savedCategories = categoriesRepository.save(category1);
 
-
-        Assertions.assertThat(savedCategories).isNotNull();
-        Assertions.assertThat(savedCategories.getId()).isGreaterThan(0);
+        assertAll(()->{
+        Assertions.assertThat(savedCategories).isNotNull();},
+                ()->{
+        Assertions.assertThat(savedCategories.getId()).isGreaterThan(0);}
+        );
     }
 
     @Test
+    @DisplayName("categoriesRepository getAll return more then one Categories")
     public void categoriesRepository_GetAll_ReturnMoreThenOneCategories(){
 
         categoriesRepository.save(category1);
         categoriesRepository.save(category2);
 
         List<Category> categoriesList = categoriesRepository.findAll();
-
-        Assertions.assertThat(categoriesList).isNotNull();
-        Assertions.assertThat(categoriesList.size()).isEqualTo(2);
-
+        assertAll(()->{
+        Assertions.assertThat(categoriesList).isNotNull();},
+                ()->{
+        Assertions.assertThat(categoriesList.size()).isEqualTo(2);}
+        );
 
     }
 
     @Test
+    @DisplayName("categoriesRepository FindById return Categories not null")
     public void categoriesRepository_FindById_ReturnCategoriesNotNull(){
 
         categoriesRepository.save(category1);
 
-        Category category = categoriesRepository.findById(category1.getId()).get();
+        Optional <Category> category = categoriesRepository.findById(category1.getId());
 
-        Assertions.assertThat(category).isNotNull();
+        Assertions.assertThat(category.isEmpty()).isFalse();
 
     }
 
 
     @Test
+    @DisplayName("categoriesRepository updateCard return Categories not null")
     public void categoriesRepository_updateCard_ReturnCategoriesNotNull(){
-        Category savedCategories1 = categoriesRepository.save(category1);
+        categoriesRepository.save(category1);
 
         Category categoriesSave = categoriesRepository.findById(category1.getId()).get();
         categoriesSave.setDescription("yy");
 
 
         Category updatedCategories = categoriesRepository.save(categoriesSave);
+        assertAll(()->{
+                    Assertions.assertThat(updatedCategories).isNotNull();
+                },
+                ()->{
 
-        Assertions.assertThat(updatedCategories).isNotNull();
-        Assertions.assertThat(updatedCategories.getDescription()).isNotNull();
-
+        Assertions.assertThat(updatedCategories.getDescription()).isNotNull();}
+        );
 
     }
     @Test
+    @DisplayName("categoriesRepository CategoriesDelete return Categories is empty")
     public void categoriesRepository_CategoriesDelete_ReturnCategoriesIsEmpty(){
 
         Category savedCategories1 = categoriesRepository.save(category1);
