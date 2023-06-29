@@ -3,6 +3,7 @@ package de.ait.gethelp.services.impl;
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.CardsPage;
 import de.ait.gethelp.dto.NewCardDto;
+import de.ait.gethelp.exceptions.BadDataException;
 import de.ait.gethelp.exceptions.NotFoundException;
 import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.Category;
@@ -51,17 +52,22 @@ public class CardsServiceImpl implements CardsService {
                 () -> new NotFoundException("Category <" + newCard.getCategoryId() + "> not found"));
         SubCategory subCategory = subCategoriesRepository.findById(newCard.getSubCategoryId()).orElseThrow(
                 () -> new NotFoundException("SubCategory <" + newCard.getSubCategoryId() + "> not found"));
+        if (!subCategory.getCategory().getId().equals(category.getId())) {
+            throw new BadDataException("SubCategory doesn't match to this Category");
+        }
         Card card = Card.builder()
                 .createdAt(LocalDateTime.now())
                 .user(user)
+                .title(newCard.getTitle())
                 .category(category)
                 .subcategory(subCategory)
                 .price(newCard.getPrice())
                 .description(newCard.getDescription())
+                .fullDescription(newCard.getFullDescription())
                 .isActive(true)
                 .build();
 
-        // check if User has status isHelper = false, then switch to true
+        // check if User has status isHelper == false, then switch to true
         if (!user.getIsHelper()) {
             user.setIsHelper(true);
             usersRepository.save(user);
@@ -80,11 +86,13 @@ public class CardsServiceImpl implements CardsService {
                 () -> new NotFoundException("SubCategory <" + editedCard.getSubCategoryId() + "> not found"));
         Card card = cardsRepository.findById(cardId).orElseThrow(
                 () -> new NotFoundException("Card <" + cardId + "> not found"));
+        card.setTitle(editedCard.getTitle());
         card.setUser(user);
         card.setCategory(category);
         card.setSubcategory(subCategory);
         card.setPrice(editedCard.getPrice());
         card.setDescription(editedCard.getDescription());
+        card.setFullDescription(editedCard.getFullDescription());
         cardsRepository.save(card);
         return CardDto.from(card);
     }

@@ -23,6 +23,12 @@ public class Card {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Column(name = "title")
+    private String title;
+
+    // @Column(name = "image")
+    // TODO private Image/String image;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -38,8 +44,11 @@ public class Card {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "description", length = 1000)
+    @Column(name = "description", length = 150)
     private String description;
+
+    @Column(name = "full_description", length = 5000)
+    private String fullDescription;
 
     @Column(name = "isActive")
     private Boolean isActive;

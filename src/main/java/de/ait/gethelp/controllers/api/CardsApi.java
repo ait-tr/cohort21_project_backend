@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Tags(value = {
         @Tag(name = "Cards")})
-@RequestMapping("/api/cards")
 @ApiResponse(responseCode = "403", description = "Пользователь не аутентифицирован",
         content = {
                 @Content(mediaType = "application/json",
@@ -36,7 +35,6 @@ public interface CardsApi {
                     }
             )
     })
-    @GetMapping
     ResponseEntity<CardsPage> getAll();
 
 
@@ -56,7 +54,6 @@ public interface CardsApi {
                     }
             )
     })
-    @GetMapping("/{card-id}")
     ResponseEntity<CardDto> getById(@Parameter(description = "идентификатор карточки помощи")
                                     @PathVariable("card-id") Long cardId);
 
@@ -70,7 +67,6 @@ public interface CardsApi {
                     }
             )
     })
-    @PostMapping
     ResponseEntity<CardDto> addCard(@Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser user,
                                     @RequestBody NewCardDto newCard);
 
@@ -86,7 +82,6 @@ public interface CardsApi {
                     }
             )
     })
-    @PutMapping("/{card-id}")
     ResponseEntity<CardDto> editCard(
             @Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser user,
             @Parameter(description = "идентификатор карточки помощи")
@@ -106,7 +101,6 @@ public interface CardsApi {
             )
     })
     // TODO delete под вопросом. Альтернатива - сделать статус isArchived (убираем из всех поисков и доступов, но сохраняем связи карточки со сделками)
-    @DeleteMapping("/{card-id}")
     ResponseEntity<CardDto> deleteCard(@Parameter(description = "идентификатор карточки помощи")
                                        @PathVariable("card-id") Long cardId);
 

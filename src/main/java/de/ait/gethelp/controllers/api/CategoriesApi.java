@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Tags(value = {
         @Tag(name = "Categories")})
-@RequestMapping("/api/categories")
 @ApiResponse(responseCode = "403", description = "Пользователь не аутентифицирован",
         content = {
                 @Content(mediaType = "application/json",
@@ -34,7 +33,6 @@ public interface CategoriesApi {
                     }
             )
     })
-    @GetMapping
     ResponseEntity<CategoriesPage> getAll();
 
     @Operation(summary = "Получение категории", description = "Доступно всем")
@@ -53,7 +51,6 @@ public interface CategoriesApi {
                     }
             )
     })
-    @GetMapping("/{category-id}")
     ResponseEntity<CategoryDto> getById(@Parameter(description = "идентификатор категории")
                                         @PathVariable("category-id") Long categoryId);
 
@@ -67,7 +64,6 @@ public interface CategoriesApi {
                     }
             )
     })
-    @PostMapping
     ResponseEntity<CategoryDto> addCategory(@RequestBody NewCategoryDto newCategory);
 
     @Operation(summary = "Редактирование категории", description = "Доступно только администратору")
@@ -81,7 +77,6 @@ public interface CategoriesApi {
                     }
             )
     })
-    @PutMapping("/{category-id}")
     ResponseEntity<CategoryDto> editCategory(
             @Parameter(description = "идентификатор категории")
             @PathVariable("category-id") Long categoryId,

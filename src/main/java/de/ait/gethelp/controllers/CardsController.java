@@ -9,27 +9,31 @@ import de.ait.gethelp.services.CardsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/cards")
 public class CardsController implements CardsApi {
 
     private final CardsService cardsService;
 
     @Override
+    @GetMapping
     public ResponseEntity<CardsPage> getAll() {
         return ResponseEntity
                 .ok(cardsService.getAll());
     }
 
     @Override
+    @GetMapping("/{card-id}")
     public ResponseEntity<CardDto> getById(Long cardId) {
         return ResponseEntity.ok(cardsService.getById(cardId));
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @Override
+    @PostMapping
     public ResponseEntity<CardDto> addCard(AuthenticatedUser authenticatedUser, NewCardDto newCard) {
         Long currentUserId = authenticatedUser.getUser().getId();
         return ResponseEntity.status(201)
@@ -38,6 +42,7 @@ public class CardsController implements CardsApi {
 
     @PreAuthorize("hasAuthority('USER')")
     @Override
+    @PutMapping("/{card-id}")
     public ResponseEntity<CardDto> editCard(AuthenticatedUser authenticatedUser, Long cardId, NewCardDto editedCard) {
         Long currentUserId = authenticatedUser.getUser().getId();
         return ResponseEntity.ok(cardsService.editCard(currentUserId, cardId, editedCard));
@@ -46,6 +51,7 @@ public class CardsController implements CardsApi {
 
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @Override
+    @DeleteMapping("/{card-id}")
     public ResponseEntity<CardDto> deleteCard(Long cardId) {
         return ResponseEntity.status(204)
                 .body(cardsService.deleteCard(cardId));
