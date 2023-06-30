@@ -20,20 +20,26 @@ public class CardDto {
     @Schema(description = "идентификатор карточки помощи, не указывается при добавлении", example = "1")
     private Long id;
 
-    @Schema(description = "ID пользователя предлагающего помощь", example = "1")
-    private Long userId;
+    @Schema(description = "Пользователь предлагающего помощь", example = "1")
+    private UserDto user;
 
-    @Schema(description = "ID категории карточки помощи", example = "1")
-    private Long categoryId;
+    @Schema(description = "Название карточки помощи", example = "JAVA Lessons for beginners")
+    private String title;
 
-    @Schema(description = "ID подкатегории карточки помощи", example = "1")
-    private Long subCategoryId;
+    @Schema(description = "Категория карточки помощи", example = "1")
+    private CategoryDto category;
+
+    @Schema(description = "Подкатегория карточки помощи", example = "1")
+    private SubCategoryDto subCategory;
 
     @Schema(description = "Стоимость оказания помощи", example = "30")
     private Double price;
 
-    @Schema(description = "Описание карточки помощи", example = "Help you with learning Python")
+    @Schema(description = "Описание карточки помощи", example = "Short description (for preview)")
     private String description;
+
+    @Schema(description = "Полное описание карточки помощи", example = "Help you with learning Python")
+    private String fullDescription;
 
     @Schema(description = "Является ли карточка помощи активной/доступной для поиска", example = "true")
     private Boolean isActive;
@@ -41,11 +47,13 @@ public class CardDto {
     public static CardDto from(Card card) {
         return CardDto.builder()
                 .id(card.getId())
-                .userId(card.getUser().getId())
-                .categoryId(card.getCategory().getId())
-                .subCategoryId(card.getSubcategory().getId())
+                .user(UserDto.from(card.getUser()))
+                .title(card.getTitle())
+                .category(CategoryDto.from(card.getCategory()))
+                .subCategory(SubCategoryDto.from(card.getSubcategory()))
                 .price(card.getPrice())
                 .description(card.getDescription())
+                .fullDescription(card.getFullDescription())
                 .isActive(card.getIsActive())
                 .build();
     }

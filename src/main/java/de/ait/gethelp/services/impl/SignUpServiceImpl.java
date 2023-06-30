@@ -2,6 +2,8 @@ package de.ait.gethelp.services.impl;
 
 import de.ait.gethelp.dto.NewUserDto;
 import de.ait.gethelp.dto.UserDto;
+import de.ait.gethelp.exceptions.BadDataException;
+import de.ait.gethelp.exceptions.ConflictException;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.UsersRepository;
 import de.ait.gethelp.services.SignUpService;
@@ -22,6 +24,17 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public UserDto signUp(NewUserDto newUser) {
+        if (newUser.getUsername().length() < 3) {
+            throw new BadDataException("Username is too short. Must be at least 3 characters long");
+        }
+        if (usersRepository.existsByUsernameEquals(newUser.getUsername())) {
+            throw new ConflictException("User with this username already exist");
+        }
+        if (newUser.getPassword().length() < 3) {
+            throw new BadDataException("Password must be at least 3 characters long ");
+        }
+        // TODO change min password length and add pass difficulty check
+
         User user = User.builder()
                 .username(newUser.getUsername())
                 .hashPassword(passwordEncoder.encode(newUser.getPassword()))

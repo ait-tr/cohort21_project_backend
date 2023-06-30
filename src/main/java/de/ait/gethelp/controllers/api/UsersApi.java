@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @Tags(value = {
         @Tag(name = "Users")
 })
-@RequestMapping("/api/users")
 public interface UsersApi {
 
     @Operation(summary = "Получение своего профиля", description = "Доступно только аутентифицированному пользователю")
@@ -38,7 +37,6 @@ public interface UsersApi {
                     }
             )
     })
-    @GetMapping("/my/profile")
     ResponseEntity<ProfileDto> getProfile(@Parameter(hidden = true)
                                           @AuthenticationPrincipal AuthenticatedUser currentUser);
 
@@ -54,7 +52,6 @@ public interface UsersApi {
                     }
             )
     })
-    @PutMapping("/my/profile")
     ResponseEntity<ProfileDto> editProfile(
             @Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser currentUser,
             @RequestBody NewProfileDto editedProfile);
@@ -72,7 +69,6 @@ public interface UsersApi {
                     }
             )
     })
-    @PatchMapping("/my/cards/{card-id}")
     ResponseEntity<CardDto> editCardStatus(
             @Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser currentUser,
             @Parameter(description = "идентификатор карточки помощи")
@@ -96,7 +92,6 @@ public interface UsersApi {
                     }
             )
     })
-    @GetMapping("/my/cards")
     ResponseEntity<CardsPage> getUserCards(@Parameter(hidden = true)
                                           @AuthenticationPrincipal AuthenticatedUser currentUser);
 }

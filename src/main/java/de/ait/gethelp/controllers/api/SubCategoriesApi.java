@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Tags(value = {
         @Tag(name = "Subcategories")})
-@RequestMapping("/api/subcategories")
 @ApiResponse(responseCode = "403", description = "Пользователь не аутентифицирован",
         content = {
                 @Content(mediaType = "application/json",
@@ -34,7 +33,6 @@ public interface SubCategoriesApi {
                     }
             )
     })
-    @GetMapping
     ResponseEntity<SubCategoriesPage> getAll();
 
 
@@ -54,7 +52,6 @@ public interface SubCategoriesApi {
                     }
             )
     })
-    @GetMapping("/{subcategory-id}")
     ResponseEntity<SubCategoryDto> getById(@Parameter(description = "идентификатор подкатегории")
                                         @PathVariable("subcategory-id") Long subCategoryId);
 
@@ -68,7 +65,6 @@ public interface SubCategoriesApi {
                     }
             )
     })
-    @PostMapping
     ResponseEntity<SubCategoryDto> addSubCategory(@RequestBody NewSubCategoryDto newSubCategoryDto);
 
 
@@ -81,7 +77,6 @@ public interface SubCategoriesApi {
                     }
             )
     })
-    @PutMapping("/{subcategory-id}")
     ResponseEntity<SubCategoryDto> editSubCategory(
             @Parameter(description = "идентификатор категории")
             @PathVariable("subcategory-id") Long subCategoryId,
