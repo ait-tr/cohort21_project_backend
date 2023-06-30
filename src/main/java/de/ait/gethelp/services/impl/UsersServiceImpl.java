@@ -27,9 +27,6 @@ public class UsersServiceImpl implements UsersService {
     public ProfileDto getProfile(Long currentUserId) {
         User user = usersRepository.findById(currentUserId)
                 .orElseThrow(IllegalArgumentException::new);
-        CardsPage userCards = CardsPage.builder()
-                .cards(from(cardsRepository.findAllByUser_Id(currentUserId)))
-                .build();
 
         return ProfileDto.builder()
                 .id(user.getId())
@@ -38,7 +35,6 @@ public class UsersServiceImpl implements UsersService {
                 .phone(user.getPhone())
                 .role(user.getRole().name())
                 .isHelper(user.getIsHelper())
-                .cards(userCards)
                 .build();
     }
 
@@ -60,9 +56,6 @@ public class UsersServiceImpl implements UsersService {
     public ProfileDto editProfile(Long currentUserId, NewProfileDto editedProfile) {
         User user = usersRepository.findById(currentUserId)
                 .orElseThrow(IllegalArgumentException::new);
-        CardsPage userCards = CardsPage.builder()
-                .cards(from(cardsRepository.findAllByUser_Id(currentUserId)))
-                .build();
         user.setEmail(editedProfile.getEmail());
         user.setPhone(editedProfile.getPhone());
         usersRepository.save(user);
@@ -74,7 +67,6 @@ public class UsersServiceImpl implements UsersService {
                 .phone(user.getPhone())
                 .role(user.getRole().name())
                 .isHelper(user.getIsHelper())
-                .cards(userCards)
                 .build();
     }
 

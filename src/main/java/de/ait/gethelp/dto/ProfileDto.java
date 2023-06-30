@@ -20,5 +20,4 @@ public class ProfileDto {
     private String phone;
     private String role;
     private Boolean isHelper;
-    private CardsPage cards;
 }
