@@ -1,16 +1,27 @@
 package de.ait.gethelp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.ait.gethelp.controllers.UsersController;
+import de.ait.gethelp.dto.CardDto;
+import de.ait.gethelp.dto.CardsPage;
+import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.dto.UserDto;
+import de.ait.gethelp.models.Card;
+import de.ait.gethelp.models.Category;
+import de.ait.gethelp.models.SubCategory;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.CardsRepository;
 import de.ait.gethelp.repositories.CategoriesRepository;
 import de.ait.gethelp.repositories.SubCategoriesRepository;
 import de.ait.gethelp.repositories.UsersRepository;
 import de.ait.gethelp.services.UsersService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.web.header.Header;
@@ -19,6 +30,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Handler;
 
 import static org.hamcrest.Matchers.is;
@@ -27,7 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(UserControllerTest.class)
+@WebMvcTest(controllers = UsersController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -36,14 +50,82 @@ public class UserControllerTest {
     private static final String END_POINT_PATH = "/api/users";
     @MockBean
     private final UsersService usersService;
-    @MockBean
-    private UsersRepository usersRepository;
-    @MockBean
-    private CardsRepository cardsRepository;
-    @MockBean
-    private CategoriesRepository categoriesRepository;
-    @MockBean
-    private SubCategoriesRepository subCategoriesRepository;
+    private User user1;
+    private User user2;
+    private CardsPage cardsPage;
+    private ProfileDto profileDto;
+    private Card card1;
+    private Category category1;
+    private SubCategory subCategory;
+
+    @BeforeEach
+    public void init(){
+
+        user1 = User.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .username("xx")
+                .hashPassword("qwerty")
+                .email("xx@xx.xx")
+                .phone("455")
+                .role(User.Role.USER)
+                .isHelper(true)
+                .isBlocked(false)
+                .cards(List.of(card1))
+                .build();
+        user2 = User.builder()
+                .id(2l)
+                .createdAt(LocalDateTime.now())
+                .username("xx")
+                .hashPassword("qwerty")
+                .email("xx@xx.xx")
+                .phone("455")
+                .role(User.Role.USER)
+                .isHelper(true)
+                .isBlocked(false)
+                .cards(List.of(card1))    // TODO: 29.06.2023 тоже не влаживается карточка
+                .build();
+        cardsPage=CardsPage.builder()
+                .cards(new ArrayList<CardDto>())
+                .build();
+        profileDto = ProfileDto.builder()
+                .id(1L)
+                .username("xx")
+                .email("xx@xx.xx")
+                .phone("455")
+                .role(String.valueOf(User.Role.USER))
+                .isHelper(true)
+                .cards(cardsPage)
+                .build();
+        card1 = Card.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .user(user1)
+                .category(category1)
+                .subcategory(subCategory)
+                .price(22.22)
+                .description("xx")
+                .isActive(true)
+                .build();
+        category1 = Category.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .title("xx")
+                .description("xx")
+                .subCategory(null)   // TODO: 29.06.2023 не даёт пройти
+                .cards(null)
+                .build();
+        subCategory = SubCategory.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .title("xx")
+                .description("xx")
+                .category(category1)
+                .cards(List.of(card1))
+                .build();
+
+
+    }
 
     public UserControllerTest(UsersService usersService) {
         this.usersService = usersService;
@@ -78,22 +160,11 @@ public class UserControllerTest {
     @Test
     public void addShouldReturn201Created() throws Exception {
         String email = "xx@xx.xx";
-        User user = User.builder()
-                .id(2l)
-                .createdAt(LocalDateTime.now())
-                .username("xx")
-                .hashPassword("qwerty")
-                .email(email)
-                .phone("455")
-                .role(User.Role.USER)
-                .isHelper(true)
-                .isBlocked(false)
-                .cards(null)
-                .build();
 
-        //Mockito.when(signUpService.signUp(user)).thenReturn(user.id(2l));
 
-        String requestBody = objectMapper.writeValueAsString(user);
+      //  Mockito.when(signUpService.signUp(user1)).thenReturn(user1);
+
+        String requestBody = objectMapper.writeValueAsString(user1);
 
         mockMvc.perform(post(END_POINT_PATH).contentType("application/json")
                         .content(requestBody))

@@ -38,26 +38,6 @@ class CardsRepositoryTest {
 
     @BeforeEach
     void setUp() {
-         user1 = User.builder()
-                .id(1l)
-                .createdAt(LocalDateTime.now())
-                .username("xx")
-                .hashPassword("qwerty")
-                .email("xx@xx.xx")
-                .phone("455")
-                .role(User.Role.USER)
-                .isHelper(true)
-                .isBlocked(false)
-                .cards(null)
-                .build();
-         category = Category.builder()
-                .id(1l)
-                .createdAt(LocalDateTime.now())
-                .title("xx")
-                .description("xx")
-                .subCategory(List.of(subCategory))
-                .cards(List.of(card1))     // TODO: 28.06.2023 не даёт пройти тесту
-                .build();
         card1 = Card.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
@@ -86,6 +66,26 @@ class CardsRepositoryTest {
                 .category(category)
                 .cards(List.of(card1))
                 .build();
+        category = Category.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .title("xx")
+                .description("xx")
+                .subCategory(List.of(subCategory))
+                .cards(List.of(card1))
+                .build();
+         user1 = User.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .username("xx")
+                .hashPassword("qwerty")
+                .email("xx@xx.xx")
+                .phone("455")
+                .role(User.Role.USER)
+                .isHelper(true)
+                .isBlocked(false)
+                .cards(null)
+                .build();
     }
 
     @Test
@@ -101,7 +101,7 @@ class CardsRepositoryTest {
     }
     @Test
     @DisplayName("cardRepository GetAll return more then one card")
-    public void cardRepository_GetAll_ReturnMoreThenOneCard(){
+    public void cardRepository_GetAll_ReturnMoreThenOneCard(){  // TODO: 30.06.2023 провал
 
         cardsRepository.save(card1);
         cardsRepository.save(card2);
@@ -125,7 +125,7 @@ class CardsRepositoryTest {
     }
     @Test
     @DisplayName("cardRepository FindByType return Card not null")
-    public void cardRepository_FindByType_ReturnCardNotNull(){
+    public void cardRepository_FindByType_ReturnCardNotNull(){  // TODO: 30.06.2023 провал
         cardsRepository.save(card1);
 
         Card card = cardsRepository.findAllByUser_Id(card1.getUser().getId()).get(1);

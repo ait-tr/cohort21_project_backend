@@ -1,4 +1,4 @@
-package de.ait.gethelp.services;
+package de.ait.gethelp.services.impl;
 
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.CardsPage;
@@ -30,9 +30,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class
-
-UserServiceTests {
+public class UserServiceTests {
     @Mock
     private UsersRepository usersRepository;
     @Mock
@@ -44,11 +42,24 @@ UserServiceTests {
     private User user2;
     private CardsPage cardsPage;
     private ProfileDto profileDto;
-    private Card card1;
+    private Card card;
     private Category category1;
     private SubCategory subCategory;
     @BeforeEach
     public void init(){
+
+
+        card = Card.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .user(user1)
+                .category(category1)
+                .subcategory(subCategory)
+                .price(22.22)
+                .description("xx")
+                .isActive(true)
+                .build();
+        List<Card>cards =List.of(card);
 
         user1 = User.builder()
                 .id(1l)
@@ -60,7 +71,7 @@ UserServiceTests {
                 .role(User.Role.USER)
                 .isHelper(true)
                 .isBlocked(false)
-                .cards(null)
+                .cards(cards)
                 .build();
         user2 = User.builder()
                 .id(2l)
@@ -72,7 +83,7 @@ UserServiceTests {
                 .role(User.Role.USER)
                 .isHelper(true)
                 .isBlocked(false)
-                .cards(List.of(card1))    // TODO: 29.06.2023 тоже не влаживаетсякарточка
+                .cards(cards)    // TODO: 29.06.2023 тоже не влаживается карточка
                 .build();
         cardsPage=CardsPage.builder()
                 .cards(new ArrayList<CardDto>())
@@ -86,32 +97,27 @@ UserServiceTests {
                 .isHelper(true)
                 .cards(cardsPage)
                 .build();
-        card1 = Card.builder()
-                .id(1l)
-                .createdAt(LocalDateTime.now())
-                .user(user1)
-                .category(category1)
-                .subcategory(subCategory)
-                .price(22.22)
-                .description("xx")
-                .isActive(true)
-                .build();
+
         category1 = Category.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
-                .subCategory((List<SubCategory>) subCategory)   // TODO: 29.06.2023 не даёт пройти
-                .cards(List.of(card1))
+                .subCategory(null)   // TODO: 29.06.2023 не даёт пройти
+                .cards(null)
                 .build();
         subCategory = SubCategory.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
-                .category(category1)
-                .cards(List.of(card1))
+                .category(null)
+                .cards(cards)
                 .build();
+        List<SubCategory>subCategories=List.of(subCategory);
+        subCategory.setCategory(category1);
+        category1.setCards(cards);
+        category1.setSubCategory(subCategories);
 
 
     }
@@ -144,9 +150,9 @@ UserServiceTests {
 
 
     @Test
-    @DisplayName("userService editCardStatus return CardDTO")
+    @DisplayName("userService editCardStatus return CardDTO")       // TODO: 30.06.2023 no works
     public void userService_editCardStatus_ReturnsCardDTO(){
-        when(usersRepository.findById(2l)).thenReturn(Optional.ofNullable(user2));
+        when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user2));
 
 
        CardDto expectedCardDTO = usersService.editCardStatus(1l, 1l, false );
@@ -174,7 +180,7 @@ UserServiceTests {
     }
     @Test
     @DisplayName("userService GetUsersCards return CardsPage")
-    public void userService_GetUsersCards_ReturnCardsPage(){
+    public void userService_GetUsersCards_ReturnCardsPage(){           // TODO: 30.06.2023 works
         when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user1));
         CardsPage expectedCardsPage = usersService.getUserCards(user1.getId());
         Assertions.assertAll(()->{
