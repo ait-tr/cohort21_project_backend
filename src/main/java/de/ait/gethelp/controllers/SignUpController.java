@@ -2,7 +2,7 @@ package de.ait.gethelp.controllers;
 
 import de.ait.gethelp.controllers.api.SignUpApi;
 import de.ait.gethelp.dto.NewUserDto;
-import de.ait.gethelp.dto.UserDto;
+import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.services.SignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class SignUpController implements SignUpApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<UserDto> signUp(NewUserDto newUser) {
+    public ResponseEntity<ProfileDto> signUp(NewUserDto newUser) {
         return ResponseEntity
                 .status(201)
                 .body(signUpService.signUp(newUser));

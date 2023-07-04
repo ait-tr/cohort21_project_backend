@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "subcategories")
 public class SubCategory {
 
     @Id

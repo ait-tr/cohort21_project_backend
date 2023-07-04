@@ -84,7 +84,7 @@ UserServiceTests {
                 .phone("455")
                 .role(String.valueOf(User.Role.USER))
                 .isHelper(true)
-                .cards(cardsPage)
+                //.cards(cardsPage)
                 .build();
         card1 = Card.builder()
                 .id(1l)
@@ -133,7 +133,7 @@ UserServiceTests {
                 .phone("455")
                 .role("USER")
                 .isHelper(true)
-                .cards(cardsPage)
+                //.cards(cardsPage)
                 .build();
         Assertions.assertAll(()->{
         Assertions.assertEquals(expectedProfile, userProfile);},
