@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,16 +46,7 @@ class SubCategoriesRepositoryTest {
                 .isBlocked(false)
                 .cards(null)
                 .build();
-        List<SubCategory> subCategories = List.of(subCategory1);  // TODO: 28.06.2023 не даёт пройти тесту
-        List<Card> cards = List.of(card100);
-        category1 = Category.builder()
-                .id(1l)
-                .createdAt(LocalDateTime.now())
-                .title("xx")
-                .description("xx")
-                .subCategory(subCategories)
-                .cards(cards)
-                .build();
+        List<Card> cardList = List.of(card100);
         card100 = Card.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
@@ -80,6 +72,15 @@ class SubCategoriesRepositoryTest {
                 .description("xx")
                 .category(category1)
                 .cards(List.of(card100))
+                .build();
+        List<SubCategory> subCategories = List.of(subCategory1);  // TODO: 28.06.2023 не даёт пройти тесту
+        category1 = Category.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .title("xx")
+                .description("xx")
+                .subCategory(subCategories)
+                .cards(cardList)
                 .build();
     }
 
