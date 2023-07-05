@@ -55,6 +55,15 @@ public class CardsServiceImpl implements CardsService {
         if (!subCategory.getCategory().getId().equals(category.getId())) {
             throw new BadDataException("SubCategory doesn't match to this Category");
         }
+        if (newCard.getTitle().length() > Card.DatabaseConstraints.CARD_TITLE_LENGTH) {
+            throw new BadDataException("Length of Title field shouldn't be more than " + Card.DatabaseConstraints.CARD_TITLE_LENGTH + " characters.");
+        }
+        if (newCard.getDescription().length() > Card.DatabaseConstraints.CARD_DESCRIPTION_LENGTH) {
+            throw new BadDataException("Length of Description field shouldn't be more than " + Card.DatabaseConstraints.CARD_DESCRIPTION_LENGTH + " characters.");
+        }
+        if (newCard.getFullDescription().length() > Card.DatabaseConstraints.CARD_FULL_DESCRIPTION_LENGTH) {
+            throw new BadDataException("Length of FullDescription field shouldn't be more than " + Card.DatabaseConstraints.CARD_FULL_DESCRIPTION_LENGTH + " characters.");
+        }
         Card card = Card.builder()
                 .createdAt(LocalDateTime.now())
                 .user(user)

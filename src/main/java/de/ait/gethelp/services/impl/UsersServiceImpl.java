@@ -28,14 +28,7 @@ public class UsersServiceImpl implements UsersService {
         User user = usersRepository.findById(currentUserId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        return ProfileDto.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .role(user.getRole().name())
-                .isHelper(user.getIsHelper())
-                .build();
+        return ProfileDto.from(user);
     }
 
     @Override
@@ -60,14 +53,7 @@ public class UsersServiceImpl implements UsersService {
         user.setPhone(editedProfile.getPhone());
         usersRepository.save(user);
 
-        return ProfileDto.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .role(user.getRole().name())
-                .isHelper(user.getIsHelper())
-                .build();
+        return ProfileDto.from(user);
     }
 
     @Override

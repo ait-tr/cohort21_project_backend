@@ -20,8 +20,8 @@ public class CardDto {
     @Schema(description = "идентификатор карточки помощи, не указывается при добавлении", example = "1")
     private Long id;
 
-    @Schema(description = "Пользователь предлагающего помощь", example = "1")
-    private UserDto user;
+    @Schema(description = "Пользователь предлагающий помощь", example = "1")
+    private ProfileDto user;
 
     @Schema(description = "Название карточки помощи", example = "JAVA Lessons for beginners")
     private String title;
@@ -47,7 +47,7 @@ public class CardDto {
     public static CardDto from(Card card) {
         return CardDto.builder()
                 .id(card.getId())
-                .user(UserDto.from(card.getUser()))
+                .user(ProfileDto.from(card.getUser()))
                 .title(card.getTitle())
                 .category(CategoryDto.from(card.getCategory()))
                 .subCategory(SubCategoryDto.from(card.getSubcategory()))

@@ -1,7 +1,7 @@
 package de.ait.gethelp.services.impl;
 
 import de.ait.gethelp.dto.NewUserDto;
-import de.ait.gethelp.dto.UserDto;
+import de.ait.gethelp.dto.ProfileDto;
 import de.ait.gethelp.exceptions.BadDataException;
 import de.ait.gethelp.exceptions.ConflictException;
 import de.ait.gethelp.models.User;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static de.ait.gethelp.dto.UserDto.from;
-
 @RequiredArgsConstructor
 @Service
 public class SignUpServiceImpl implements SignUpService {
@@ -23,7 +21,7 @@ public class SignUpServiceImpl implements SignUpService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDto signUp(NewUserDto newUser) {
+    public ProfileDto signUp(NewUserDto newUser) {
         if (newUser.getUsername().length() < 3) {
             throw new BadDataException("Username is too short. Must be at least 3 characters long");
         }
@@ -48,6 +46,6 @@ public class SignUpServiceImpl implements SignUpService {
 
         usersRepository.save(user);
 
-        return from(user);
+        return ProfileDto.from(user);
     }
 }

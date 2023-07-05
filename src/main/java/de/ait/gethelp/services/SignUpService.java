@@ -2,8 +2,8 @@ package de.ait.gethelp.services;
 
 
 import de.ait.gethelp.dto.NewUserDto;
-import de.ait.gethelp.dto.UserDto;
+import de.ait.gethelp.dto.ProfileDto;
 
 public interface SignUpService {
-    UserDto signUp(NewUserDto newUser);
+    ProfileDto signUp(NewUserDto newUser);
 }
