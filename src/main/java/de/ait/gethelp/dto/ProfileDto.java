@@ -18,6 +18,7 @@ public class ProfileDto {
 
     private Long id;
     private String username;
+    private String avatar;
     private String email;
     private String phone;
     private String role;
@@ -27,6 +28,7 @@ public class ProfileDto {
         return ProfileDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .avatar(user.getAvatar())
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .role(user.getRole().toString())

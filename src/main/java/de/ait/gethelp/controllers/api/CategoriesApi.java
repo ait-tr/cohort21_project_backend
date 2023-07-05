@@ -38,7 +38,7 @@ public interface CategoriesApi {
     @Operation(summary = "Получение категории", description = "Доступно всем")
     //TODO настроить доступ для категорий
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Задача",
+            @ApiResponse(responseCode = "200", description = "Категория",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = CategoryDto.class))
