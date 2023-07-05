@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 
 
 @RequiredArgsConstructor
-//@Component
+@Component
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class InitialDataRunner implements CommandLineRunner {
 
