@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,24 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 )
 public interface FilesApi {
 
-    @Operation(summary = "Получение файла изображения пользователя", description = "Доступно только зарегистрированному пользователю")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Файл изображения (аватар)",
-                    content = {
-                            @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = String.class))
-                    }
-            ),
-            @ApiResponse(responseCode = "404", description = "Не найдено",
-                    content = {
-                            @Content(mediaType = "application/json",
-                                    schema = @Schema(ref = "StandardResponseDto"))
-                    }
-            )
-    })
-    ResponseEntity<String> getUserImage(@Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser authenticatedUser);
-
-
     @Operation(summary = "Сохранение/изменение изображения пользователя", description = "Доступно только зарегистрированному пользователю")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Сохранённый/обновленный файл изображения",
@@ -52,5 +35,19 @@ public interface FilesApi {
             )
     })
     ResponseEntity<String> saveUserImage(@Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser authenticatedUser,
-                                              @RequestParam("image") MultipartFile image);
+                                         @RequestParam("image") MultipartFile image);
+
+
+    @Operation(summary = "Сохранение/изменение изображения карточки помощи", description = "Доступно только зарегистрированному пользователю")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Сохранённый/обновленный файл изображения",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = String.class))
+                    }
+            )
+    })
+    ResponseEntity<String> saveCardImage(@Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+                                         @Parameter(description = "идентификатор карточки помощи") Long cardId,
+                                         @RequestParam("image") MultipartFile image);
 }

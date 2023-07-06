@@ -20,6 +20,9 @@ public class CardDto {
     @Schema(description = "идентификатор карточки помощи, не указывается при добавлении", example = "1")
     private Long id;
 
+    @Schema(description = "имя файла изображения для карточки помощи", example = "image001.jpeg")
+    private String image;
+
     @Schema(description = "Пользователь предлагающий помощь", example = "1")
     private ProfileDto user;
 
@@ -48,6 +51,7 @@ public class CardDto {
         return CardDto.builder()
                 .id(card.getId())
                 .user(ProfileDto.from(card.getUser()))
+                .image(card.getImage())
                 .title(card.getTitle())
                 .category(CategoryDto.from(card.getCategory()))
                 .subCategory(SubCategoryDto.from(card.getSubcategory()))

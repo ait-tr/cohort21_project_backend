@@ -33,8 +33,8 @@ public class Card {
     @Column(name = "title", length = DatabaseConstraints.CARD_TITLE_LENGTH)
     private String title;
 
-    // @Column(name = "image")
-    // TODO private Image/String image;
+    @Column(name = "image")
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

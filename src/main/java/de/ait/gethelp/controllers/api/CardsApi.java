@@ -38,7 +38,6 @@ public interface CardsApi {
     ResponseEntity<CardsPage> getAll();
 
 
-    //TODO настроить доступ для карточек
     @Operation(summary = "Получение карточки помощи", description = "Доступно всем")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Карточка помощи",
@@ -100,7 +99,6 @@ public interface CardsApi {
                     }
             )
     })
-    // TODO delete под вопросом. Альтернатива - сделать статус isArchived (убираем из всех поисков и доступов, но сохраняем связи карточки со сделками)
     ResponseEntity<CardDto> deleteCard(@Parameter(description = "идентификатор карточки помощи")
                                        @PathVariable("card-id") Long cardId);
 

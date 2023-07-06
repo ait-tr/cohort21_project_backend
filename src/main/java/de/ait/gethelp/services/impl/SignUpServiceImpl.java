@@ -29,7 +29,7 @@ public class SignUpServiceImpl implements SignUpService {
             throw new ConflictException("User with this username already exist");
         }
         if (newUser.getPassword().length() < 3) {
-            throw new BadDataException("Password must be at least 3 characters long ");
+            throw new BadDataException("Password must be at least 3 characters long");
         }
         // TODO change min password length and add pass difficulty check
 

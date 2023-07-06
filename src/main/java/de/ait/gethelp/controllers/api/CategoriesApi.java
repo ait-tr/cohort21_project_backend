@@ -36,7 +36,6 @@ public interface CategoriesApi {
     ResponseEntity<CategoriesPage> getAll();
 
     @Operation(summary = "Получение категории", description = "Доступно всем")
-    //TODO настроить доступ для категорий
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Категория",
                     content = {

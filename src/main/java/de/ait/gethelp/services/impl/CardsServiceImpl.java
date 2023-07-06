@@ -67,6 +67,7 @@ public class CardsServiceImpl implements CardsService {
         Card card = Card.builder()
                 .createdAt(LocalDateTime.now())
                 .user(user)
+                .image(newCard.getImage())
                 .title(newCard.getTitle())
                 .category(category)
                 .subcategory(subCategory)
@@ -97,6 +98,7 @@ public class CardsServiceImpl implements CardsService {
                 () -> new NotFoundException("Card <" + cardId + "> not found"));
         card.setTitle(editedCard.getTitle());
         card.setUser(user);
+        card.setImage(editedCard.getImage());
         card.setCategory(category);
         card.setSubcategory(subCategory);
         card.setPrice(editedCard.getPrice());
