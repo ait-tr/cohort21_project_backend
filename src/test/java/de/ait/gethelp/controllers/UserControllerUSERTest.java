@@ -1,4 +1,4 @@
-package de.ait.gethelp;
+package de.ait.gethelp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.ait.gethelp.Config.TestConfig;

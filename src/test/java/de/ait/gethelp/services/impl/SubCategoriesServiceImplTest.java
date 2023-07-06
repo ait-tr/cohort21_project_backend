@@ -5,6 +5,7 @@ import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.Category;
 import de.ait.gethelp.models.SubCategory;
 import de.ait.gethelp.models.User;
+import de.ait.gethelp.repositories.CategoriesRepository;
 import de.ait.gethelp.repositories.SubCategoriesRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.when;
 class SubCategoriesServiceImplTest {
     @Mock
     private SubCategoriesRepository subCategoriesRepository;
+    @Mock
+    private CategoriesRepository categoriesRepository;
     @InjectMocks
     private SubCategoriesServiceImpl subCategoriesServices;
 
@@ -133,8 +136,9 @@ class SubCategoriesServiceImplTest {
         });
     }
     @Test
-    @DisplayName("subCategoriesService addSubCategory return subCategory") // TODO: 04.07.2023 no works
+    @DisplayName("subCategoriesService addSubCategory return subCategory")
     public void subCategoriesService_addSubCategory_ReturnSubCategory(){
+        when(categoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(category1));
         SubCategoryDto expected = subCategoriesServices.addSubCategory(newSubCategory);
 
         assertAll(()->{
@@ -142,8 +146,9 @@ class SubCategoriesServiceImplTest {
         });
     }
     @Test
-    @DisplayName("subCategoriesService editSubCategory return subCategory") // TODO: 04.07.2023 no works
+    @DisplayName("subCategoriesService editSubCategory return subCategory")
     public void subCategoriesService_editSubCategory_ReturnSubCategory(){
+        when(categoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(category1));
         when(subCategoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(subCategory1));
 
 

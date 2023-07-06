@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -90,7 +91,7 @@ class CardsServiceImplTest {
                 .phone("455")
                 .role(String.valueOf(User.Role.USER))
                 .isHelper(true)
-                .cards(cardsPage)
+                //.cards(cardsPage)
                 .build();
         subCategory = SubCategory.builder()
                 .id(1l)
@@ -113,11 +114,13 @@ class CardsServiceImplTest {
         card1 = Card.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
+                .title("xxxxxx")
                 .user(user1)
                 .category(category1)
                 .subcategory(subCategory)
                 .price(22.22)
                 .description("xx")
+                .fullDescription("xx xx xx")
                 .isActive(true)
                 .build();
         subCategory.setCategory(category1);
@@ -169,9 +172,12 @@ class CardsServiceImplTest {
     }
 
     @Test
-    @DisplayName("cardsServices addCard return CardDTO") // TODO: 03.07.2023 no works
+    @DisplayName("cardsServices addCard return CardDTO")
     public void cardsServices_addCard_ReturnCardDTO(){
-        when(cardsRepository.findById(1l)).thenReturn(Optional.ofNullable(card1));
+        when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user1));
+        lenient().when(cardsRepository.findById(1l)).thenReturn(Optional.ofNullable(card1));
+        when(categoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(category1));
+        when(subCategoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(subCategory));
         CardDto expectedResult = cardsService.addCard(user1.getId(), newCard);
 
         assertAll(
@@ -184,7 +190,10 @@ class CardsServiceImplTest {
     @Test
     @DisplayName("cardsServices editCard return CardDTO") // TODO: 03.07.2023 no works
     public void cardsServices_editCard_ReturnCardDTO(){
-        when(cardsRepository.findById(1l)).thenReturn(Optional.ofNullable(card1));
+        when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user1));
+        lenient().when(cardsRepository.findById(1l)).thenReturn(Optional.ofNullable(card1));
+        when(categoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(category1));
+        when(subCategoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(subCategory));
 
         CardDto expected = cardsService.editCard(user1.getId(), card1.getId(), editCard);
 

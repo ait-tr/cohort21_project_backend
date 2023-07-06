@@ -5,15 +5,10 @@ import de.ait.gethelp.controllers.UsersController;
 import de.ait.gethelp.dto.CardDto;
 import de.ait.gethelp.dto.CardsPage;
 import de.ait.gethelp.dto.ProfileDto;
-import de.ait.gethelp.dto.UserDto;
 import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.Category;
 import de.ait.gethelp.models.SubCategory;
 import de.ait.gethelp.models.User;
-import de.ait.gethelp.repositories.CardsRepository;
-import de.ait.gethelp.repositories.CategoriesRepository;
-import de.ait.gethelp.repositories.SubCategoriesRepository;
-import de.ait.gethelp.repositories.UsersRepository;
 import de.ait.gethelp.services.UsersService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,14 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.web.header.Header;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -49,7 +41,7 @@ public class UserControllerTest {
     private ObjectMapper objectMapper;
     private static final String END_POINT_PATH = "/api/users";
     @MockBean
-    private final UsersService usersService;
+    private UsersService usersService;
     private User user1;
     private User user2;
     private CardsPage cardsPage;
@@ -61,6 +53,16 @@ public class UserControllerTest {
     @BeforeEach
     public void init(){
 
+        card1 = Card.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .user(user1)
+                .category(category1)
+                .subcategory(subCategory)
+                .price(22.22)
+                .description("xx")
+                .isActive(true)
+                .build();
         user1 = User.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
@@ -95,17 +97,7 @@ public class UserControllerTest {
                 .phone("455")
                 .role(String.valueOf(User.Role.USER))
                 .isHelper(true)
-                .cards(cardsPage)
-                .build();
-        card1 = Card.builder()
-                .id(1l)
-                .createdAt(LocalDateTime.now())
-                .user(user1)
-                .category(category1)
-                .subcategory(subCategory)
-                .price(22.22)
-                .description("xx")
-                .isActive(true)
+                //.cards(cardsPage)
                 .build();
         category1 = Category.builder()
                 .id(1l)
@@ -127,11 +119,7 @@ public class UserControllerTest {
 
     }
 
-    public UserControllerTest(UsersService usersService) {
-        this.usersService = usersService;
-
-    }
-/*
+    /*
 -------------------------ADD--------------POST----------------
  */
     @Test
