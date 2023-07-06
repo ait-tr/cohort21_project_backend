@@ -88,14 +88,28 @@ public class CardsServiceImpl implements CardsService {
 
     @Override
     public CardDto editCard(Long currentUserId, Long cardId, NewCardDto editedCard) {
+        if (editedCard.getTitle().length() > Card.DatabaseConstraints.CARD_TITLE_LENGTH) {
+            throw new BadDataException("Length of Title field shouldn't be more than " + Card.DatabaseConstraints.CARD_TITLE_LENGTH + " characters.");
+        }
+        if (editedCard.getDescription().length() > Card.DatabaseConstraints.CARD_DESCRIPTION_LENGTH) {
+            throw new BadDataException("Length of Description field shouldn't be more than " + Card.DatabaseConstraints.CARD_DESCRIPTION_LENGTH + " characters.");
+        }
+        if (editedCard.getFullDescription().length() > Card.DatabaseConstraints.CARD_FULL_DESCRIPTION_LENGTH) {
+            throw new BadDataException("Length of FullDescription field shouldn't be more than " + Card.DatabaseConstraints.CARD_FULL_DESCRIPTION_LENGTH + " characters.");
+        }
         User user = usersRepository.findById(currentUserId)
                 .orElseThrow(IllegalArgumentException::new);
         Category category = categoriesRepository.findById(editedCard.getCategoryId()).orElseThrow(
                 () -> new NotFoundException("Category <" + editedCard.getCategoryId() + "> not found"));
         SubCategory subCategory = subCategoriesRepository.findById(editedCard.getSubCategoryId()).orElseThrow(
                 () -> new NotFoundException("SubCategory <" + editedCard.getSubCategoryId() + "> not found"));
+        if (!subCategory.getCategory().getId().equals(category.getId())) {
+            throw new BadDataException("SubCategory doesn't match to this Category");
+        }
+
         Card card = cardsRepository.findById(cardId).orElseThrow(
                 () -> new NotFoundException("Card <" + cardId + "> not found"));
+
         card.setTitle(editedCard.getTitle());
         card.setUser(user);
         card.setImage(editedCard.getImage());
