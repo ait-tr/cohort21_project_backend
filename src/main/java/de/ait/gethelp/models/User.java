@@ -41,7 +41,8 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    // TODO Image/String avatar;
+    @Column(name = "avatar_path")
+    private String avatar;
 
     // TODO Address = Country + City;
 

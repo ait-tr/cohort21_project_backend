@@ -41,7 +41,7 @@ public interface CardsApi {
     //TODO настроить доступ для карточек
     @Operation(summary = "Получение карточки помощи", description = "Доступно всем")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Задача",
+            @ApiResponse(responseCode = "200", description = "Карточка помощи",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = CardDto.class))
@@ -91,7 +91,7 @@ public interface CardsApi {
 
     @Operation(summary = "Удаление карточки помощи", description = "Доступно администратору и USER со статусом isHelper=true")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Задача удалена"
+            @ApiResponse(responseCode = "204", description = "Карточка удалена"
             ),
             @ApiResponse(responseCode = "404", description = "Не найдено",
                     content = {
