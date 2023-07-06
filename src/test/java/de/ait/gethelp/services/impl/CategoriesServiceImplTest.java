@@ -50,7 +50,7 @@ class CategoriesServiceImplTest {
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
-                .subCategory(null)   // TODO: 29.06.2023 не даёт пройти
+                .subCategory(null)
                 .cards(null)
                 .build();
 
@@ -59,7 +59,7 @@ class CategoriesServiceImplTest {
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
-                .subCategory(null)   // TODO: 29.06.2023 не даёт пройти
+                .subCategory(null)
                 .cards(null)
                 .build();
         card = Card.builder()

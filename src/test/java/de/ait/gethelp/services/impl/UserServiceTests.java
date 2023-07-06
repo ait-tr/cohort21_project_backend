@@ -52,6 +52,7 @@ public class UserServiceTests {
         card = Card.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
+                .title("xx")
                 .user(user1)
                 .category(category1)
                 .subcategory(subCategory)
@@ -60,7 +61,6 @@ public class UserServiceTests {
                 .isActive(true)
                 .build();
         List<Card>cards =List.of(card);
-
         user1 = User.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
@@ -73,6 +73,7 @@ public class UserServiceTests {
                 .isBlocked(false)
                 .cards(cards)
                 .build();
+
         user2 = User.builder()
                 .id(2l)
                 .createdAt(LocalDateTime.now())
@@ -118,11 +119,10 @@ public class UserServiceTests {
         subCategory.setCategory(category1);
         category1.setCards(cards);
         category1.setSubCategory(subCategories);
+        card.setCategory(category1);
 
 
     }
-
-
 
     @Test
     @DisplayName("userService GetProfile return ProfileDTO")
@@ -152,12 +152,13 @@ public class UserServiceTests {
     @Test
     @DisplayName("userService editCardStatus return CardDTO")       // TODO: 30.06.2023 no works
     public void userService_editCardStatus_ReturnsCardDTO(){
-        when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user2));
+        when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user1));
+        when(cardsRepository.findById(1l)).thenReturn(Optional.ofNullable(card));
 
 
        CardDto expectedCardDTO = usersService.editCardStatus(1l, 1l, false );
        Assertions.assertAll(()->{
-           Assertions.assertEquals(user1.getCards().get(1).getIsActive(), expectedCardDTO.getIsActive());
+           Assertions.assertEquals(false, expectedCardDTO.getIsActive());
                }
        );
     }
@@ -181,10 +182,12 @@ public class UserServiceTests {
     @Test
     @DisplayName("userService GetUsersCards return CardsPage")
     public void userService_GetUsersCards_ReturnCardsPage(){           // TODO: 30.06.2023 works
+        List <Card> cards = List.of(card);
         when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user1));
+        when(cardsRepository.findAll()).thenReturn(cards);
         CardsPage expectedCardsPage = usersService.getUserCards(user1.getId());
         Assertions.assertAll(()->{
-                    Assertions.assertEquals(user1.getCards().get(1).getId(), expectedCardsPage.getCards().get(1).getId());
+                    Assertions.assertEquals(user1.getCards().get(0).getId(), expectedCardsPage.getCards().get(1).getId());
                 }
         );
     }
