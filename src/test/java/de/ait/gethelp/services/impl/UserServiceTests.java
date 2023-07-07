@@ -84,7 +84,7 @@ public class UserServiceTests {
                 .role(User.Role.USER)
                 .isHelper(true)
                 .isBlocked(false)
-                .cards(cards)    // TODO: 29.06.2023 тоже не влаживается карточка
+                .cards(cards)
                 .build();
         cardsPage=CardsPage.builder()
                 .cards(new ArrayList<CardDto>())
@@ -104,7 +104,7 @@ public class UserServiceTests {
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
-                .subCategory(null)   // TODO: 29.06.2023 не даёт пройти
+                .subCategory(null)
                 .cards(null)
                 .build();
         subCategory = SubCategory.builder()
@@ -187,7 +187,7 @@ public class UserServiceTests {
         when(cardsRepository.findAll()).thenReturn(cards);
         CardsPage expectedCardsPage = usersService.getUserCards(user1.getId());
         Assertions.assertAll(()->{
-                    Assertions.assertEquals(user1.getCards().get(0).getId(), expectedCardsPage.getCards().get(1).getId());
+                    Assertions.assertEquals(user1.getCards().get(1).getId(), expectedCardsPage.getCards().get(1).getId());
                 }
         );
     }

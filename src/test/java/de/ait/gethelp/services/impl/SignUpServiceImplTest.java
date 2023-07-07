@@ -2,11 +2,14 @@ package de.ait.gethelp.services.impl;
 
 import de.ait.gethelp.dto.NewUserDto;
 import de.ait.gethelp.dto.ProfileDto;
+import de.ait.gethelp.exceptions.BadDataException;
+import de.ait.gethelp.exceptions.ConflictException;
 import de.ait.gethelp.models.User;
 import de.ait.gethelp.repositories.CardsRepository;
 import de.ait.gethelp.repositories.UsersRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +63,57 @@ class SignUpServiceImplTest {
                 .isBlocked(false)
                 .build();
     }
+    @Test
+    @DisplayName("singUpService SignUp Successful Registration")
+    public void singUpService_testSignUp_SuccessfulRegistration() {
+        // Mock input data
+        NewUserDto newUser = new NewUserDto("john", "password");
 
+        // Mock repository behavior
+        when(usersRepository.existsByUsernameEquals("john")).thenReturn(false);
+
+        // Mock password encoding
+        String encodedPassword = "encodedPassword";
+        when(passwordEncoder.encode("password")).thenReturn(encodedPassword);
+
+        // Call the signUp method
+        ProfileDto result = signUpService.signUp(newUser);
+
+        // Verify the repository save method was called with the correct user
+        verify(usersRepository).save(any(User.class));
+
+        // Assert the returned ProfileDto
+        assertNotNull(result);
+        assertEquals("john", result.getUsername());
+      //  assertEquals(encodedPassword, result.getHashedPassword());
+    }
+
+    @Test()
+    @DisplayName("singUpService testSignUp Username too Short")
+    public void singUpService_testSignUp_UsernameTooShort() {
+        NewUserDto newUser = new NewUserDto("jo", "password");
+        signUpService.signUp(newUser);
+    }
+
+    @Test()
+    @DisplayName("singUpService testSignUp Password too Short")
+    public void singUpService_testSignUp_PasswordTooShort() {
+        // Mock input data
+        NewUserDto newUser = new NewUserDto("john", "pa");
+
+        // Call the signUp method
+        signUpService.signUp(newUser);
+    }
+
+    @Test()
+    @DisplayName("singUpService testSignUp Username Already Exists")
+    public void singUpService_testSignUp_UsernameAlreadyExists() {
+        NewUserDto newUser = new NewUserDto("john", "password");
+        when(usersRepository.existsByUsernameEquals("john")).thenReturn(true);
+
+        // Call the signUp method
+        signUpService.signUp(newUser);
+    }
 
 
     @Test

@@ -79,7 +79,7 @@ class CardsServiceImplTest {
                 .role(User.Role.USER)
                 .isHelper(true)
                 .isBlocked(false)
-                .cards(null)    // TODO: 29.06.2023 тоже не влаживается карточка
+                .cards(null)
                 .build();
         cardsPage=CardsPage.builder()
                 .cards(new ArrayList<CardDto>())
@@ -107,7 +107,7 @@ class CardsServiceImplTest {
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
-                .subCategory(subCategories)   // TODO: 29.06.2023 не даёт пройти
+                .subCategory(subCategories)
              //   .cards(null)
                 .build();
 
@@ -129,6 +129,7 @@ class CardsServiceImplTest {
         category1.setCards(cards);
         newCard = new NewCardDto(
                                 "xx",
+                                   null,
                                 1l,
                                 1l,
                                 10.00,
@@ -137,6 +138,7 @@ class CardsServiceImplTest {
                 );
         editCard = new NewCardDto(
                                 "yy",
+                                null,
                                 2l,
                                 2l,
                                 20.00,
@@ -188,12 +190,12 @@ class CardsServiceImplTest {
     }
 
     @Test
-    @DisplayName("cardsServices editCard return CardDTO") // TODO: 03.07.2023 no works
+    @DisplayName("cardsServices editCard return CardDTO")
     public void cardsServices_editCard_ReturnCardDTO(){
         when(usersRepository.findById(1l)).thenReturn(Optional.ofNullable(user1));
         lenient().when(cardsRepository.findById(1l)).thenReturn(Optional.ofNullable(card1));
-        when(categoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(category1));
-        when(subCategoriesRepository.findById(1l)).thenReturn(Optional.ofNullable(subCategory));
+        when(categoriesRepository.findById(2l)).thenReturn(Optional.ofNullable(category1));
+        when(subCategoriesRepository.findById(2l)).thenReturn(Optional.ofNullable(subCategory));
 
         CardDto expected = cardsService.editCard(user1.getId(), card1.getId(), editCard);
 
@@ -204,7 +206,7 @@ class CardsServiceImplTest {
     }
 
     @Test
-    @DisplayName("cardsServices deleteCard return CardDTO") // TODO: 03.07.2023 no works
+    @DisplayName("cardsServices deleteCard return CardDTO")
     public void cardsServices_deleteCard_ReturnCardDTO(){
         when(cardsRepository.findById(1l)).thenReturn(Optional.ofNullable(card1));
         assertAll(()->cardsService.deleteCard(1l));
