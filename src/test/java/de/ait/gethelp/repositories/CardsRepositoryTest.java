@@ -58,20 +58,22 @@ class CardsRepositoryTest {
                 .description("xx")
                 .isActive(true)
                 .build();
-        subCategory = SubCategory.builder()
-                .id(1l)
-                .createdAt(LocalDateTime.now())
-                .title("xx")
-                .description("xx")
-                .category(category)
-                .cards(List.of(card1))
-                .build();
         category = Category.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
                 .subCategory(List.of(subCategory))
+                .cards(List.of(card1))
+                .build();
+        List<Card> cards=List.of(card1, card2);
+        category.setCards(cards);
+        subCategory = SubCategory.builder()
+                .id(1l)
+                .createdAt(LocalDateTime.now())
+                .title("xx")
+                .description("xx")
+                .category(category)
                 .cards(List.of(card1))
                 .build();
          user1 = User.builder()
@@ -128,7 +130,7 @@ class CardsRepositoryTest {
     public void cardRepository_FindByType_ReturnCardNotNull(){  // TODO: 30.06.2023 провал
         cardsRepository.save(card1);
 
-        Card card = cardsRepository.findAllByUser_Id(card1.getUser().getId()).get(1);
+        Card card = cardsRepository.findAllByUser_Id(card1.getUser().getId()).get(0);
 
         Assertions.assertThat(card).isNotNull();
 

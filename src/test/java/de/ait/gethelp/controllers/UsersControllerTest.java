@@ -9,8 +9,9 @@ import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.Category;
 import de.ait.gethelp.models.SubCategory;
 import de.ait.gethelp.models.User;
-import de.ait.gethelp.services.impl.CardsServiceImpl;
-import de.ait.gethelp.services.impl.UsersServiceImpl;
+import de.ait.gethelp.repositories.UsersRepository;
+import de.ait.gethelp.services.CategoriesService;
+import de.ait.gethelp.services.impl.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,8 +43,18 @@ class UsersControllerTest {
     @MockBean
     private UsersServiceImpl usersService;
     @MockBean
+    private UsersRepository usersRepository;
+    @MockBean
     private CardsServiceImpl cardsService;
+    @MockBean
+    private CategoriesServiceImpl categoriesService;
+    @MockBean
+    private SubCategoriesServiceImpl subCategoriesService;
+    @MockBean
+    private FilesServiceImpl filesService;
+    private static final String END_POINT_PATH = "/api/users";
 
+    /*
     private User user1;
     private User user2;
     private CardsPage cardsPage;
@@ -51,11 +62,12 @@ class UsersControllerTest {
     private Card card;
     private Category category1;
     private SubCategory subCategory;
+    */
 
     @BeforeEach
     public void init(){
 
-
+/*
         card = Card.builder()
                 .id(1l)
                 .createdAt(LocalDateTime.now())
@@ -79,7 +91,7 @@ class UsersControllerTest {
                 .role(User.Role.USER)
                 .isHelper(true)
                 .isBlocked(false)
-                .cards(cards)    // TODO: 29.06.2023 тоже не влаживается карточка
+                .cards(cards)
                 .build();
         cardsPage=CardsPage.builder()
                 .cards(new ArrayList<CardDto>())
@@ -99,7 +111,7 @@ class UsersControllerTest {
                 .createdAt(LocalDateTime.now())
                 .title("xx")
                 .description("xx")
-                .subCategory(null)   // TODO: 29.06.2023 не даёт пройти
+                .subCategory(null)
                 .cards(null)
                 .build();
         subCategory = SubCategory.builder()
@@ -114,16 +126,18 @@ class UsersControllerTest {
         subCategory.setCategory(category1);
         category1.setCards(cards);
         category1.setSubCategory(subCategories);
-
+*/
 
     }
+
+
     @Test
     @DisplayName("userController GetProfile return ProfileDTO")
     @WithUserDetails(value = "jack")
     public void userController_GetProfile_ReturnProfileDTO()throws Exception{
-
-        mockMvc.perform(get("/api/users/my/profile")).andDo(print())
+        mockMvc.perform(get(END_POINT_PATH+"/my/profile")).andDo(print())
                 .andExpect(status().isOk());
+
     }
     @Test
     @DisplayName("userController EditProfile return ProfileDTO")
