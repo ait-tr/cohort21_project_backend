@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NewCardDto {
     private String title;
-    // TODO String/Image image; (if null -> standart img)
+    private String image;
     private Long categoryId;
     private Long subCategoryId;
     private Double price;

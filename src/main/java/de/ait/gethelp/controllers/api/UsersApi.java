@@ -24,7 +24,7 @@ public interface UsersApi {
 
     @Operation(summary = "Получение своего профиля", description = "Доступно только аутентифицированному пользователю")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Информацию о профиле",
+            @ApiResponse(responseCode = "200", description = "Информация о профиле",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ProfileDto.class))
@@ -79,7 +79,7 @@ public interface UsersApi {
 
     @Operation(summary = "Получение карточек помощи пользователя", description = "Доступно только USER со статусом isHelper=true")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Информацию о профиле",
+            @ApiResponse(responseCode = "200", description = "Информация о профиле",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = CardsPage.class))

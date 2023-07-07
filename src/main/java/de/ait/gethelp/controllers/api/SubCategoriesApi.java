@@ -36,10 +36,9 @@ public interface SubCategoriesApi {
     ResponseEntity<SubCategoriesPage> getAll();
 
 
-    //TODO настроить доступ для подкатегорий
     @Operation(summary = "Получение подкатегории", description = "Доступно всем")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Задача",
+            @ApiResponse(responseCode = "200", description = "Подкатегория",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = SubCategoryDto.class))

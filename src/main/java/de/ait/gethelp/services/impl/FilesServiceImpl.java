@@ -1,6 +1,9 @@
 package de.ait.gethelp.services.impl;
 
+import de.ait.gethelp.exceptions.NotFoundException;
+import de.ait.gethelp.models.Card;
 import de.ait.gethelp.models.User;
+import de.ait.gethelp.repositories.CardsRepository;
 import de.ait.gethelp.repositories.UsersRepository;
 import de.ait.gethelp.services.FilesService;
 import lombok.RequiredArgsConstructor;
@@ -18,33 +21,51 @@ import java.util.UUID;
 public class FilesServiceImpl implements FilesService {
 
     private final UsersRepository usersRepository;
+    private final CardsRepository cardsRepository;
 
     @Value("${upload.path}")
     private String UPLOAD_PATH;
 
 
     @Override
-    public String getUserImage(Long currentUserId) {
+    public String saveUserImage(Long currentUserId, MultipartFile image) {
         User user = usersRepository.findById(currentUserId)
                 .orElseThrow(IllegalArgumentException::new);
-        return user.getAvatar(); // нужен ли метод? возвращаем оригинальную строку?
+        String fileName = user.getAvatar();
+        fileName = saveImage(image, fileName);
+        user.setAvatar(fileName);
+        usersRepository.save(user);
+        return fileName;
     }
 
     @Override
-    public String saveUserImage (Long currentUserId, MultipartFile image) throws IOException {
-        if (image==null) throw new RuntimeException("No file");
+    public String saveCardImage(Long cardId, MultipartFile image) {
+        Card card = cardsRepository.findById(cardId).orElseThrow(
+                () -> new NotFoundException("Card <" + cardId + "> not found"));
+        String fileName = card.getImage();
+        fileName = saveImage(image, fileName);
+        System.out.println(fileName);
+        card.setImage(fileName);
+        cardsRepository.save(card);
+        return fileName;
+    }
+
+    private String saveImage(MultipartFile image, String fileName) {
+        if (image == null) throw new RuntimeException("No file");
         File uploadDir = new File(UPLOAD_PATH);
-        if (!uploadDir.exists()){
+        if (!uploadDir.exists()) {
             uploadDir.mkdirs();
-        };
-        User user = usersRepository.findById(currentUserId)
-                .orElseThrow(IllegalArgumentException::new);
-        String fileName = UUID.randomUUID().toString()+"_"+image.getOriginalFilename();
+        }
+        if (fileName == null) {
+            fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+        }
         Path path = uploadDir.toPath().resolve(fileName);
-        image.transferTo(path);
-        user.setAvatar(fileName); // тут делаем сейв или в отдельном методе?
-        usersRepository.save(user);
-        return path.toString();
+        try {
+            image.transferTo(path);
+        } catch (IOException e) {
+            throw new RuntimeException("Saving image error", e);
+        }
+        return fileName;
     }
 
 

@@ -6,7 +6,8 @@ import java.io.IOException;
 
 public interface FilesService {
 
-    String getUserImage(Long currentUserId);
-    String saveUserImage(Long currentUserId, MultipartFile image) throws IOException;
+    String saveUserImage(Long currentUserId, MultipartFile image);
+
+    String saveCardImage(Long cardId, MultipartFile image);
 
 }
