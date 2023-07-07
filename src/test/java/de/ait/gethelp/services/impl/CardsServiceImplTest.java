@@ -129,6 +129,7 @@ class CardsServiceImplTest {
         category1.setCards(cards);
         newCard = new NewCardDto(
                                 "xx",
+                                   null,
                                 1l,
                                 1l,
                                 10.00,
@@ -137,6 +138,7 @@ class CardsServiceImplTest {
                 );
         editCard = new NewCardDto(
                                 "yy",
+                                null,
                                 2l,
                                 2l,
                                 20.00,
